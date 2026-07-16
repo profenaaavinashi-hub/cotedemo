@@ -215,7 +215,11 @@
   /* ===== Tables ===== */
   .table-row-section{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; margin-bottom:18px; }
   .table-wrap{overflow-x:auto;}
-  table{width:100%; border-collapse:collapse; min-width:480px;}
+ table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:unset;
+}
   thead th{
     text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
     color:var(--text-light); font-weight:700; padding:0 10px 10px; border-bottom:1px solid var(--border);
@@ -337,7 +341,7 @@
   .overlay.show{display:block;}
 
   /* ===================== RESPONSIVE ===================== */
-  @media (max-width:1180px){
+  /* @media (max-width:1180px){
     .stats-grid{grid-template-columns:repeat(3,1fr);}
     .quick-actions{grid-template-columns:repeat(3,1fr);}
     .charts-row{grid-template-columns:1fr;}
@@ -374,7 +378,209 @@
   @media (max-width:420px){
     .stats-grid{grid-template-columns:1fr 1fr;}
     .stat-num{font-size:19px;}
-  }
+  } */
+  /* ================= Responsive ================= */
+
+@media (max-width:1180px){
+
+    .stats-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .quick-actions{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .charts-row{
+        grid-template-columns:1fr;
+    }
+
+    .table-row-section{
+        grid-template-columns:1fr;
+    }
+
+    .three-row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media (max-width:860px){
+
+    .app{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:fixed;
+        left:0;
+        top:0;
+        height:100vh;
+        width:250px;
+        transform:translateX(-100%);
+        transition:.25s;
+        z-index:999;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .hamburger{
+        display:flex;
+        align-items:center;
+    }
+
+    .topbar{
+        padding:12px 16px;
+        gap:12px;
+    }
+
+    .content{
+        padding:18px 16px 44px;
+    }
+
+    .page-head{
+        flex-direction:column;
+    }
+
+    .head-right{
+        align-items:flex-start;
+    }
+
+    .user-info{
+        display:none;
+    }
+
+    .search-box{
+        max-width:none;
+    }
+
+    body,
+    .main,
+    .content{
+        overflow-x:hidden;
+    }
+
+    .table-wrap{
+        overflow:visible;
+    }
+
+    table{
+        min-width:100%;
+    }
+
+}
+
+@media (max-width:600px){
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .quick-actions{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .cta-banner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .cta-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .page-head h1{
+        font-size:20px;
+    }
+
+    footer{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .investor-right{
+        align-items:flex-end;
+    }
+
+    /* ===== Table becomes Card ===== */
+
+    .table-wrap{
+        overflow:visible;
+    }
+
+    table,
+    thead,
+    tbody,
+    tr,
+    th,
+    td{
+        display:block;
+        width:100%;
+    }
+
+    thead{
+        display:none;
+    }
+
+    tbody tr{
+        background:#fff;
+        border:1px solid #E8ECF5;
+        border-radius:14px;
+        margin-bottom:18px;
+        padding:16px;
+        box-shadow:0 6px 20px rgba(0,0,0,.06);
+    }
+
+    tbody td{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:8px 0;
+        border:none;
+        font-size:14px;
+    }
+
+    tbody td::before{
+        font-weight:600;
+        color:#666;
+    }
+
+    tbody td:nth-child(1)::before{content:"Project";}
+    tbody td:nth-child(2)::before{content:"Collaborator";}
+    tbody td:nth-child(3)::before{content:"Industry";}
+    tbody td:nth-child(4)::before{content:"Progress";}
+    tbody td:nth-child(5)::before{content:"Meeting";}
+    tbody td:nth-child(6)::before{content:"Status";}
+
+    .proj-cell{
+        width:auto;
+        justify-content:flex-end;
+    }
+
+    .progress-cell{
+        width:65%;
+    }
+
+}
+
+@media (max-width:420px){
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .quick-actions{
+        grid-template-columns:1fr;
+    }
+
+    .stat-num{
+        font-size:19px;
+    }
+
+}
 </style>
 </head>
 <body>
