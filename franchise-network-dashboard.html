@@ -359,6 +359,11 @@
 
   .overlay{ display:none; position:fixed; inset:0; background:rgba(10,8,25,.5); z-index:55; }
   .overlay.show{display:block;}
+.network-row{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:12px;
+}
 
   /* ===================== RESPONSIVE ===================== */
   @media (max-width:1280px){
@@ -394,12 +399,120 @@
   }
 
   @media (max-width:600px){
-    .stats-grid{grid-template-columns:repeat(2,1fr);}
-    .quick-actions{grid-template-columns:repeat(2,1fr);}
-    .cta-banner{flex-direction:column; align-items:flex-start;}
-    .cta-btn{width:100%; justify-content:center;}
-    .page-head h1{font-size:20px;}
-    footer{flex-direction:column; align-items:flex-start;}
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+.network-row{
+        grid-template-columns:1fr;
+    }
+    .quick-actions{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .cta-banner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .cta-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .page-head h1{
+        font-size:20px;
+    }
+
+    footer{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    /* ===== Network Coverage ===== */
+
+    .map-row{
+        grid-template-columns:1fr !important;
+        gap:18px;
+    }
+
+    .map-box{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+
+    .map-box svg{
+        width:120px;
+        height:auto;
+    }
+
+    .coverage-stats{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .cov-item{
+        text-align:center;
+        padding:14px;
+        border:1px solid #E8ECF5;
+        border-radius:12px;
+    }
+
+}
+.table-row-section2{
+    grid-template-columns:1fr;
+}
+
+.table-wrap{
+    overflow:hidden;
+}
+
+table{
+    min-width:100%;
+}
+
+table,
+thead,
+tbody,
+tr,
+th,
+td{
+    display:block;
+    width:100%;
+}
+
+thead{
+    display:none;
+}
+
+tbody tr{
+    background:#fff;
+    border:1px solid #E8ECF5;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+tbody td{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:none;
+    padding:8px 0;
+}
+
+tbody td::before{
+    font-weight:600;
+    color:#6b7280;
+}
+
+tbody td:nth-child(1)::before{content:"Opportunity";}
+tbody td:nth-child(2)::before{content:"Location";}
+tbody td:nth-child(3)::before{content:"Investment";}
+tbody td:nth-child(4)::before{content:"Applications";}
+tbody td:nth-child(5)::before{content:"Status";}
   }
 
   @media (max-width:420px){
@@ -687,7 +800,8 @@
             <h3>Network Coverage</h3>
             <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </div>
-          <div class="map-row" style="grid-template-columns:1.2fr 1fr; gap:12px; margin-bottom:0;">
+          <!-- <div class="map-row" style="grid-template-columns:1.2fr 1fr; gap:12px; margin-bottom:0;"> -->
+          <div class="network-row">
             <div class="map-box">
               <svg width="150" height="170" viewBox="0 0 200 230" fill="none">
                 <path d="M100 8 C130 10 150 30 155 55 C165 60 172 75 168 90 C180 95 178 115 165 122 C168 140 155 150 145 148 C148 165 130 178 118 172 C115 190 95 198 85 188 C70 195 55 185 58 168 C40 165 32 148 40 135 C25 128 22 108 35 98 C28 85 35 68 50 65 C48 45 65 25 88 22 C85 12 92 8 100 8 Z" fill="#c9c5ea" stroke="#8B5CF6" stroke-width="1.5"/>
