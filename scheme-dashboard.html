@@ -319,7 +319,9 @@
   .status-trending{background:#FDEEE3;color:#FF6835;}
   .status-limited{background:#FDE7E7;color:#EF4444;}
 
-  .table-scroll{overflow-x:auto;}
+ .table-scroll{
+    overflow:hidden;
+}
 
   .reco-item{
     display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);
@@ -382,6 +384,93 @@
     .search-box input{font-size:13px;}
     .donut-wrap{justify-content:center;}
     .page-head h1{font-size:20px;}
+    /* ================= Latest Schemes ================= */
+
+.bottom-row{
+    grid-template-columns:1fr;
+    gap:18px;
+}
+
+.table-scroll{
+    overflow:visible;
+}
+
+table{
+    width:100%;
+    min-width:unset;
+}
+
+table,
+thead,
+tbody,
+tr,
+th,
+td{
+    display:block;
+    width:100%;
+}
+
+thead{
+    display:none;
+}
+
+tbody tr{
+    background:#fff;
+    border:1px solid #E8ECF5;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:16px;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+
+tbody td{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    border:none;
+    padding:8px 0;
+    white-space:normal;
+    word-break:break-word;
+}
+
+tbody td::before{
+    font-weight:600;
+    color:#6B7280;
+    min-width:110px;
+}
+
+tbody td:nth-child(1)::before{content:"Scheme";}
+tbody td:nth-child(2)::before{content:"Department";}
+tbody td:nth-child(3)::before{content:"Category";}
+tbody td:nth-child(4)::before{content:"Last Date";}
+tbody td:nth-child(5)::before{content:"Status";}
+
+/* ================= Recommended ================= */
+
+.reco-item{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    padding:16px;
+}
+
+.reco-body{
+    width:100%;
+}
+
+.match-pill{
+    align-self:flex-start;
+}
+
+.view-all-btn{
+    width:100%;
+    justify-content:center;
+}
+    .table-scroll{
+    overflow:hidden;
+}
   }
   @media (max-width: 420px){
     .stats-grid{grid-template-columns:1fr 1fr;}
