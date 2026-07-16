@@ -373,6 +373,43 @@
     display:none; position:fixed; inset:0; background:rgba(10,14,35,.5); z-index:55;
   }
   .overlay.show{display:block;}
+  .table-wrap{
+    overflow-x:auto;
+}
+  .mobile-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+}
+  .mobile-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+}
+  .collaboration-card{
+    background:#fff;
+    border-radius:16px;
+    padding:20px;
+    border:1px solid #E8ECF5;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+    transition:.3s;
+}
+
+.collaboration-card:hover{
+    transform:translateY(-4px);
+}
+
+.progress{
+    height:8px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress div{
+    height:100%;
+    background:#3B6CF6;
+}
 
   /* ===================== RESPONSIVE ===================== */
   @media (max-width:1180px){
