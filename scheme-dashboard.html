@@ -414,7 +414,35 @@
     .donut-wrap{justify-content:center;}
     .page-head h1{font-size:20px;}
     /* ================= Latest Schemes ================= */
+/* ===== Quick Filters Mobile ===== */
 
+.filters-row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.filter-chip{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    min-height:52px;
+    padding:12px;
+    border-radius:14px;
+    text-align:center;
+    font-size:14px;
+}
+
+.filter-chip .fic{
+    font-size:18px;
+}
+
+/* Hide the last arrow chip */
+.filter-chip:last-child{
+    display:none;
+}
 .bottom-row{
     grid-template-columns:1fr;
     gap:18px;
