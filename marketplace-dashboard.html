@@ -174,7 +174,11 @@
 
   /* Bottom 3-col: table + bulk orders + deliveries */
   .bottom-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:20px;margin-bottom:24px;}
-  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:unset;
+}
   thead th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-soft);font-weight:600;padding:0 8px 10px;border-bottom:1px solid var(--border);}
   tbody td{padding:11px 8px;border-bottom:1px solid var(--border);color:var(--text-mid);vertical-align:middle;}
   tbody tr:last-child td{border-bottom:none;}
@@ -265,6 +269,126 @@
     .stats-grid{grid-template-columns:1fr 1fr;}
     .stat-card h2{font-size:20px;}
   }
+  @media (max-width:640px){
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .content{
+        padding:18px 14px 50px;
+    }
+
+    .topbar{
+        padding:12px 14px;
+        gap:10px;
+    }
+
+    .page-head{
+        flex-direction:column;
+    }
+
+    .head-right{
+        align-items:flex-start;
+        width:100%;
+    }
+
+    .breadcrumb{
+        text-align:left;
+    }
+
+    .profile .who{
+        display:none;
+    }
+
+    .donut-wrap{
+        justify-content:center;
+    }
+
+    .page-head h1{
+        font-size:20px;
+    }
+
+    .cta-banner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .cta-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    /* ===== Table -> Card ===== */
+
+    .table-wrap{
+        overflow:visible;
+    }
+
+    table,
+    thead,
+    tbody,
+    tr,
+    th,
+    td{
+        display:block;
+        width:100%;
+    }
+
+    thead{
+        display:none;
+    }
+
+    tbody tr{
+        background:#fff;
+        border:1px solid #e7ebf5;
+        border-radius:14px;
+        padding:16px;
+        margin-bottom:16px;
+        box-shadow:0 4px 15px rgba(0,0,0,.06);
+    }
+
+    tbody td{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        border:none;
+        padding:8px 0;
+        font-size:14px;
+    }
+
+    tbody td:nth-child(1)::before{content:"Project";}
+    tbody td:nth-child(2)::before{content:"Collaborator";}
+    tbody td:nth-child(3)::before{content:"Industry";}
+    tbody td:nth-child(4)::before{content:"Progress";}
+    tbody td:nth-child(5)::before{content:"Meeting";}
+    tbody td:nth-child(6)::before{content:"Status";}
+
+    tbody td::before{
+        font-weight:600;
+        color:#666;
+    }
+
+    .proj-cell{
+        justify-content:flex-end;
+        width:auto;
+    }
+
+    .progress-cell{
+        width:65%;
+    }
+
+    table{
+        min-width:100%;
+    }
+
+    body,
+    .main,
+    .content{
+        overflow-x:hidden;
+    }
+
+}
 </style>
 </head>
 <body>
