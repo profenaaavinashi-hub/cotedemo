@@ -375,7 +375,7 @@
   .overlay.show{display:block;}
  
   /* ===================== RESPONSIVE ===================== */
-  @media (max-width:1180px){
+  /* @media (max-width:1180px){
     .stats-grid{grid-template-columns:repeat(3,1fr);}
     .quick-actions{grid-template-columns:repeat(3,1fr);}
     .charts-row{grid-template-columns:1fr;}
@@ -412,8 +412,203 @@
     .stats-grid{grid-template-columns:1fr 1fr;}
     .stat-num{font-size:20px;}
   }
- 
+  */
+@media (max-width:1180px){
+    .stats-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
 
+    .quick-actions{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .charts-row{
+        grid-template-columns:1fr;
+    }
+
+    .table-row-section{
+        grid-template-columns:1fr;
+    }
+
+    .table-wrap{
+        overflow-x:auto;
+    }
+}
+
+@media (max-width:860px){
+
+    .app{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:fixed;
+        left:0;
+        top:0;
+        height:100vh;
+        width:250px;
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .hamburger{
+        display:flex;
+        align-items:center;
+    }
+
+    .topbar{
+        padding:12px 16px;
+        gap:12px;
+    }
+
+    .content{
+        padding:18px 16px 44px;
+    }
+
+    .page-head{
+        flex-direction:column;
+    }
+
+    .head-right{
+        align-items:flex-start;
+    }
+
+    .user-info{
+        display:none;
+    }
+
+    .search-box{
+        max-width:none;
+    }
+
+    /* Mobile Table */
+
+    .table-wrap{
+        overflow:visible;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr{
+        display:block;
+        width:100%;
+    }
+
+    thead{
+        display:none;
+    }
+
+    tbody tr{
+        background:#fff;
+        border:1px solid #e8edf7;
+        border-radius:15px;
+        padding:18px;
+        margin-bottom:18px;
+        box-shadow:0 5px 18px rgba(0,0,0,.06);
+    }
+
+    tbody td{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        border:none;
+        padding:8px 0;
+        font-size:14px;
+    }
+
+    tbody td::before{
+        font-weight:600;
+        color:#666;
+    }
+
+    tbody td:nth-child(1)::before{
+        content:"Project";
+    }
+
+    tbody td:nth-child(2)::before{
+        content:"Collaborator";
+    }
+
+    tbody td:nth-child(3)::before{
+        content:"Industry";
+    }
+
+    tbody td:nth-child(4)::before{
+        content:"Progress";
+    }
+
+    tbody td:nth-child(5)::before{
+        content:"Meeting";
+    }
+
+    tbody td:nth-child(6)::before{
+        content:"Status";
+    }
+
+    .proj-cell{
+        width:100%;
+        justify-content:flex-end;
+    }
+
+    .progress-cell{
+        width:60%;
+    }
+
+}
+
+@media (max-width:600px){
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .quick-actions{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .cta-banner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .cta-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .page-head h1{
+        font-size:20px;
+    }
+
+    footer{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+@media (max-width:420px){
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .quick-actions{
+        grid-template-columns:1fr;
+    }
+
+    .stat-num{
+        font-size:20px;
+    }
+
+}
 }
 </style>
 </head>
