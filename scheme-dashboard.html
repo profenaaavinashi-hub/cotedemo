@@ -386,7 +386,7 @@
     .donut-wrap{justify-content:center;}
     .page-head h1{font-size:20px;}
     /* ================= Latest Schemes ================= */
-/* ===== Quick Filters Mobile ===== */
+@media (max-width:640px){
 
 .filters-row{
     display:grid;
@@ -400,20 +400,37 @@
     justify-content:center;
     gap:8px;
     width:100%;
-    min-height:52px;
-    padding:12px;
-    border-radius:14px;
+    min-height:55px;
+    padding:14px 12px;
     text-align:center;
+
+    /* Card Design */
+    background:linear-gradient(135deg,#EEF4FF,#F8FAFF);
+    border:1px solid #D6E4FF;
+    border-radius:14px;
+    box-shadow:0 4px 12px rgba(30,58,138,.08);
+
+    color:#1E3A8A;
     font-size:14px;
+    font-weight:600;
+
+    transition:.3s;
 }
 
 .filter-chip .fic{
     font-size:18px;
 }
 
-/* Hide the last arrow chip */
+.filter-chip:hover{
+    background:linear-gradient(135deg,#1E3A8A,#3B82F6);
+    color:#fff;
+    transform:translateY(-2px);
+}
+
 .filter-chip:last-child{
     display:none;
+}
+
 }
 .bottom-row{
     grid-template-columns:1fr;
