@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COTE — Investor Pitching & Funding Exchange</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1E3A8A;
+    --primary-light:#e8edfa;
+    --secondary:#FF6B35;
+    --secondary-light:#ffece3;
+    --success:#22C55E;
+    --success-light:#e7f9ee;
+    --warning:#F59E0B;
+    --warning-light:#fef3e0;
+    --danger:#EF4444;
+    --danger-light:#fde9e9;
+    --info:#0EA6D4;
+    --info-light:#e2f6fb;
+    --navy:#0f1f4d;
+    --navy-2:#152a63;
+    --text-dark:#1a1f36;
+    --text-mid:#5b6178;
+    --text-light:#9498a8;
+    --bg:#f4f6fb;
+     --navy-darker:#080E26;
+    --card-bg:#ffffff;
+    --border:#eaecf3;
+    --radius:16px;
+    --shadow: 0 10px 30px rgba(15,31,77,.06);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Poppins',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text-dark);
+    -webkit-font-smoothing:antialiased;
+    
+  }
+  a{text-decoration:none; color:inherit;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+
+  .app{ display:grid; grid-template-columns:250px 1fr; min-height:100vh; }
+
+  /* ===== Sidebar ===== */
+  .sidebar{
+    background:var(--navy-darker);color:#CBD5E1;padding:24px 18px 20px;
+    padding:24px 16px 20px; display:flex; flex-direction:column;
+    position:sticky; top:0; height:100vh; overflow-y:auto; z-index:60;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 6px 22px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    margin-bottom:18px;
+  }
+  .brand .logo-mark{
+    width:40px;height:40px;border-radius:10px;
+    background:linear-gradient(135deg,#FF6835,#1E3A8A);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;font-size:15px;letter-spacing:.5px;
+    flex-shrink:0;
+  }
+  .brand .brand-text{line-height:1.1;}
+  .brand .brand-text b{display:block;font-size:15px;color:#fff;letter-spacing:.5px;}
+  .brand .brand-text span{font-size:9px;color:#8B95B5;letter-spacing:1px;text-transform:uppercase;}
+
+
+  .nav-group-label{ font-size:10.5px; letter-spacing:.08em; color:#6b7191; font-weight:700; padding:14px 10px 6px; }
+  .nav{display:flex; flex-direction:column; gap:2px;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px; padding:9px 12px; border-radius:10px;
+    font-size:13.5px; font-weight:500; color:#b7bcd6;
+    transition:background .15s, color .15s; white-space:nowrap;
+  }
+  .nav-item svg{width:17px;height:17px; flex-shrink:0; opacity:.85;}
+  .nav-item:hover{background:#1c2860; color:#fff;}
+  .nav-item.active{background:var(--primary); color:#fff;}
+  .nav-item.active svg{opacity:1;}
+
+  .upgrade-card{
+    margin-top:auto;
+    background:linear-gradient(160deg,var(--primary),var(--secondary));
+    border-radius:var(--radius); padding:20px 18px; text-align:center; color:#fff; margin-top:18px;
+  }
+  .upgrade-card .icon{
+    width:38px;height:38px;background:rgba(255,255,255,.18); border-radius:10px;
+    display:flex;align-items:center;justify-content:center; margin:0 auto 10px;
+  }
+  .upgrade-card h4{font-size:14px; margin-bottom:4px;}
+  .upgrade-card p{font-size:11.5px; opacity:.85; line-height:1.4; margin-bottom:14px;}
+  .upgrade-card button{
+    background:#fff; color:var(--primary); font-weight:700; font-size:12.5px;
+    padding:9px 0; width:100%; border-radius:10px;
+  }
+
+  /* ===== Main ===== */
+  .main{min-width:0;}
+  .topbar{
+    display:flex;align-items:center;gap:16px; padding:14px 28px;
+    background:#fff; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50;
+  }
+  .hamburger{display:none; color:var(--text-mid);}
+  .hamburger svg{width:22px;height:22px;}
+   .search-box{
+    flex:1;
+    display:flex;align-items:center;gap:10px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 16px;
+    max-width:560px;
+  }
+  .search-box input{
+    border:none;background:transparent;outline:none;
+    font-size:13.5px;width:100%;color:var(--text-dark);
+    font-family:inherit;
+  }
+  .search-box input::placeholder{color:var(--text-soft);}
+  .topbar-right{
+    display:flex;align-items:center;gap:18px;margin-left:auto;
+  }
+  .bell{position:relative; color:var(--text-mid);}
+  .bell svg{width:20px;height:20px;}
+  .bell .dot{
+    position:absolute; top:-4px; right:-6px; background:var(--danger); color:#fff;
+    font-size:9.5px; font-weight:700; width:16px;height:16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .user{display:flex;align-items:center;gap:10px;}
+  .avatar{
+    width:36px;height:36px;border-radius:50%;
+    background:linear-gradient(135deg,var(--warning),var(--danger));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;
+  }
+  .user-info{line-height:1.2; white-space:nowrap;}
+  .user-info .uname{font-size:13.5px;font-weight:700;}
+  .user-info .urole{font-size:11px;color:var(--text-light);}
+  .chev{width:14px;height:14px;color:var(--text-light);}
+
+  .content{padding:24px 28px 60px;}
+
+  .page-head{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; margin-bottom:22px; }
+  .page-head h1{font-size:24px; font-weight:800; margin-bottom:4px;}
+  .page-head p{color:var(--text-mid); font-size:13.5px;}
+  .crumb{font-size:12px; color:var(--text-light); margin-bottom:8px;}
+  .crumb b{color:var(--text-mid); font-weight:600;}
+  .head-right{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
+  .share-btn{
+    display:flex; align-items:center; gap:8px; background:var(--navy); color:#fff;
+    font-weight:600; font-size:13px; padding:9px 16px; border-radius:10px;
+  }
+  .share-btn svg{width:14px;height:14px;}
+
+  /* ===== Stat cards ===== */
+  .stats-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:16px; margin-bottom:22px; }
+  .stat-card{
+    background:var(--card-bg); border-radius:var(--radius); padding:18px 16px;
+    box-shadow:var(--shadow); border:1px solid var(--border);
+  }
+  .stat-icon{ width:38px;height:38px;border-radius:12px; display:flex;align-items:center;justify-content:center; margin-bottom:14px; }
+  .stat-icon svg{width:18px;height:18px;color:#fff;}
+  .stat-num{font-size:22px; font-weight:800; margin-bottom:3px;}
+  .stat-label{font-size:12px; color:var(--text-mid); margin-bottom:8px;}
+  .stat-delta{font-size:11.5px; font-weight:600; color:var(--success); display:flex; align-items:center; gap:3px;}
+  .stat-delta.neutral{color:var(--text-light);}
+
+  .bg-primary{background:var(--primary);} .bg-success{background:var(--success);}
+  .bg-secondary{background:var(--secondary);} .bg-purple{background:#8b5cf6;}
+  .bg-info{background:var(--info);} .bg-danger{background:var(--danger);}
+
+  /* ===== Quick actions ===== */
+  .section-title{font-size:15.5px; font-weight:700; margin-bottom:14px;}
+  .quick-actions{ display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-bottom:22px; }
+  .qa-btn{
+    background:#fff; border:1px solid var(--border); border-radius:14px;
+    padding:14px 10px; display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-size:12px; font-weight:600; color:var(--text-dark); box-shadow:var(--shadow);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .qa-btn:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(15,31,77,.1);}
+  .qa-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+  .qa-icon svg{width:16px;height:16px;}
+
+  /* ===== two-col charts ===== */
+  .charts-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px; align-items:stretch; }
+  .panel{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+  .panel-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+  .panel-head h3{font-size:14.5px; font-weight:700;}
+  .filter-pill{
+    display:flex; align-items:center; gap:6px; border:1px solid var(--border); border-radius:10px;
+    padding:6px 10px; font-size:12px; color:var(--text-mid); font-weight:500;
+  }
+  .filter-pill svg{width:12px;height:12px;}
+  .link{color:var(--primary); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:4px;}
+  .link svg{width:12px;height:12px;}
+
+  .donut-wrap{display:flex; align-items:center; gap:22px; flex-wrap:wrap;}
+  .donut-legend{flex:1; min-width:180px; display:flex; flex-direction:column; gap:11px;}
+  .legend-row{display:flex; align-items:center; font-size:13px; gap:9px;}
+  .legend-dot{width:9px;height:9px;border-radius:50%; flex-shrink:0;}
+  .legend-name{flex:1; color:var(--text-mid);}
+  .legend-val{font-weight:700;}
+  .legend-pct{color:var(--text-light); font-size:11.5px; width:38px; text-align:right;}
+
+  /* gauge */
+  .gauge-wrap{display:flex; align-items:center; gap:22px; flex-wrap:wrap;}
+  .gauge-legend{flex:1; min-width:190px; display:flex; flex-direction:column; gap:11px;}
+  .gauge-center{font-size:20px; font-weight:800;}
+  .gauge-sub{font-size:11px; color:var(--text-light); font-weight:600;}
+
+  /* ===== Tables ===== */
+  .table-row-section{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; margin-bottom:18px; }
+  .table-wrap{overflow-x:auto;}
+  table{width:100%; border-collapse:collapse; min-width:480px;}
+  thead th{
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--text-light); font-weight:700; padding:0 10px 10px; border-bottom:1px solid var(--border);
+  }
+  tbody td{padding:13px 10px; font-size:12.5px; border-bottom:1px solid var(--border); vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  .cell-main{display:flex; align-items:center; gap:9px; font-weight:600;}
+  .cell-avatar{
+    width:28px;height:28px;border-radius:9px; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10.5px;
+  }
+  .badge{ display:inline-block; padding:4px 10px; border-radius:8px; font-size:10.5px; font-weight:700; white-space:nowrap; }
+  .badge.active{background:var(--success-light); color:var(--success);}
+  .badge.review{background:var(--warning-light); color:var(--warning);}
+  .badge.interest{background:var(--info-light); color:var(--info);}
+  .badge.interested{background:var(--success-light); color:var(--success);}
+  .badge.meeting{background:var(--primary-light); color:var(--primary);}
+  .badge.reviewing{background:var(--warning-light); color:var(--warning);}
+  .muted{color:var(--text-mid);}
+
+  /* three-col panels row */
+  .three-row{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:18px; }
+
+  .meeting-item{display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border);}
+  .meeting-item:last-child{border-bottom:none;}
+  .meeting-icon{
+    width:34px;height:34px;border-radius:10px; background:var(--primary-light); color:var(--primary);
+    display:flex;align-items:center;justify-content:center; flex-shrink:0;
+  }
+  .meeting-icon svg{width:16px;height:16px;}
+  .meeting-body{flex:1; min-width:0;}
+  .meeting-body .mt{font-size:12.5px; font-weight:700;}
+  .meeting-body .ms{font-size:11px; color:var(--text-light); margin-top:1px;}
+  .meeting-date{text-align:right; font-size:11px; color:var(--text-mid); font-weight:600; white-space:nowrap;}
+  .meeting-date .time{color:var(--text-light); font-weight:500; display:block; margin-top:1px;}
+
+  .dd-item{padding:12px 0; border-bottom:1px solid var(--border);}
+  .dd-item:last-child{border-bottom:none;}
+  .dd-top{display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .dd-icon{
+    width:30px;height:30px;border-radius:9px; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center; color:#fff;
+  }
+  .dd-icon svg{width:14px;height:14px;}
+  .dd-name{font-size:12.5px; font-weight:700;}
+  .dd-sub{font-size:10.5px; color:var(--text-light);}
+  .dd-pct{margin-left:auto; font-size:12px; font-weight:700; color:var(--text-mid);}
+  .progress-bar{height:6px; background:var(--border); border-radius:4px; overflow:hidden;}
+  .progress-fill{height:100%; border-radius:4px;}
+
+  .timeline{position:relative; padding-left:6px;}
+  .tl-item{display:flex; gap:12px; padding-bottom:18px; position:relative;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item:not(:last-child)::before{
+    content:''; position:absolute; left:9px; top:22px; bottom:-4px; width:2px; background:var(--border);
+  }
+  .tl-dot{
+    width:20px;height:20px;border-radius:50%; flex-shrink:0; display:flex;align-items:center;justify-content:center;
+    background:var(--success-light); color:var(--success); z-index:1;
+  }
+  .tl-dot.pending{background:var(--primary-light); color:var(--primary);}
+  .tl-dot.upcoming{background:var(--bg); color:var(--text-light); border:2px solid var(--border);}
+  .tl-dot svg{width:11px;height:11px;}
+  .tl-body{flex:1; display:flex; justify-content:space-between; gap:8px; align-items:flex-start;}
+  .tl-body .tn{font-size:12.5px; font-weight:700;}
+  .tl-body .td{font-size:11px; color:var(--text-light); white-space:nowrap;}
+
+  /* Top investors */
+  .investor-row{display:flex; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(--border);}
+  .investor-row:last-child{border-bottom:none;}
+  .investor-logo{
+    width:36px;height:36px;border-radius:10px; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;
+  }
+  .investor-info{flex:1; min-width:0;}
+  .investor-info .iname{font-size:13px; font-weight:700;}
+  .investor-info .icat{font-size:11px; color:var(--text-light);}
+  .investor-right{display:flex; flex-direction:column; align-items:flex-end; gap:6px;}
+  .stage-badge{ font-size:10px; font-weight:700; padding:3px 9px; border-radius:7px; white-space:nowrap; }
+  .stage-1{background:var(--info-light); color:var(--info);}
+  .stage-2{background:var(--success-light); color:var(--success);}
+  .stage-3{background:var(--warning-light); color:var(--warning);}
+  .view-profile{font-size:11px; color:var(--primary); font-weight:600;}
+
+  /* bar chart */
+  .bar-chart{display:flex; align-items:flex-end; gap:14px; height:220px; padding:10px 4px 0; overflow-x:auto;}
+  .bar-group{display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; min-width:34px;}
+  .bars{display:flex; align-items:flex-end; gap:4px; height:180px;}
+  .bar{width:11px; border-radius:4px 4px 0 0; transition:height .6s ease;}
+  .bar-label{font-size:10.5px; color:var(--text-light); font-weight:600;}
+  .chart-legend{display:flex; gap:18px; margin-bottom:10px;}
+  .chart-legend .lg{display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--text-mid); font-weight:600;}
+  .chart-legend .sw{width:9px;height:9px;border-radius:3px;}
+
+  /* CTA banner */
+  .cta-banner{
+    margin-top:4px; background:linear-gradient(120deg,var(--primary),var(--secondary));
+    border-radius:var(--radius); padding:26px 30px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; color:#fff; flex-wrap:wrap;
+  }
+  .cta-left{display:flex; align-items:center; gap:18px;}
+  .cta-icon{
+    width:56px;height:56px;background:rgba(255,255,255,.18);border-radius:14px;
+    display:flex;align-items:center;justify-content:center; flex-shrink:0;
+  }
+  .cta-icon svg{width:28px;height:28px;}
+  .cta-left h3{font-size:17px; margin-bottom:4px;}
+  .cta-left p{font-size:12.5px; opacity:.9;}
+  .cta-btn{
+    background:#fff; color:var(--primary); font-weight:700; font-size:13.5px;
+    padding:11px 22px; border-radius:10px; display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .cta-btn svg{width:14px;height:14px;}
+
+  footer{ display:flex; justify-content:space-between; align-items:center; padding:20px 4px; color:var(--text-light); font-size:12px; flex-wrap:wrap; gap:8px; }
+  footer .flinks{display:flex; gap:20px;}
+
+  .overlay{ display:none; position:fixed; inset:0; background:rgba(10,14,35,.5); z-index:55; }
+  .overlay.show{display:block;}
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width:1180px){
+    .stats-grid{grid-template-columns:repeat(3,1fr);}
+    .quick-actions{grid-template-columns:repeat(3,1fr);}
+    .charts-row{grid-template-columns:1fr;}
+    .table-row-section{grid-template-columns:1fr;}
+    .three-row{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:860px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed; left:0; top:0; height:100vh; width:250px;
+      transform:translateX(-100%); transition:transform .25s ease;
+    }
+    .sidebar.open{transform:translateX(0);}
+    .hamburger{display:flex; align-items:center;}
+    .topbar{padding:12px 16px; gap:12px;}
+    .content{padding:18px 16px 44px;}
+    .page-head{flex-direction:column;}
+    .head-right{align-items:flex-start;}
+    .user-info{display:none;}
+    .search-box{max-width:none;}
+  }
+
+  @media (max-width:600px){
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .quick-actions{grid-template-columns:repeat(2,1fr);}
+    .cta-banner{flex-direction:column; align-items:flex-start;}
+    .cta-btn{width:100%; justify-content:center;}
+    .page-head h1{font-size:20px;}
+    footer{flex-direction:column; align-items:flex-start;}
+    .investor-right{align-items:flex-end;}
+  }
+
+  @media (max-width:420px){
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .stat-num{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo-mark">C</div>
+      <div class="brand-text">
+        <b>COTE</b>
+        <span>Chamber of Trade &amp; Enterprise</span>
+      </div>
+    </div>
+    <div class="nav-group-label">MAIN</div>
+    <div class="nav-group-label">INVESTOR &amp; FUNDING</div>
+    <nav class="nav">
+     <a class="nav-item" href="#"><span class="ic">🏠</span> Dashboard</a>
+
+<div class="nav-group-label">INVESTOR EXCHANGE</div>
+
+<a class="nav-item active" href="#"><span class="ic">📊</span> Investor Dashboard</a>
+
+<a class="nav-item" href="#"><span class="ic">📤</span> Pitch Upload</a>
+
+<a class="nav-item" href="#"><span class="ic">💰</span> Funding Requests</a>
+
+<a class="nav-item" href="#"><span class="ic">📑</span> Investor Directory</a>
+
+<a class="nav-item" href="#"><span class="ic">👥</span> Investor Profiles</a>
+
+<a class="nav-item" href="#"><span class="ic">📁</span> Pitch Details</a>
+
+<a class="nav-item" href="#"><span class="ic">⭐</span> Investor Interest</a>
+
+<a class="nav-item" href="#"><span class="ic">📅</span> Meeting Scheduler</a>
+
+<a class="nav-item" href="#"><span class="ic">🔍</span> Due Diligence</a>
+
+<a class="nav-item" href="#"><span class="ic">📄</span> Agreements</a>
+
+<a class="nav-item" href="#"><span class="ic">🚀</span> Funding Status</a>
+
+<a class="nav-item" href="#"><span class="ic">📈</span> Reports &amp; Analytics</a>
+    <div class="upgrade-card">
+      <div class="icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 8l5 3 4-6 4 6 5-3-2 11H5z"/></svg>
+      </div>
+      <h4>Upgrade to Premium</h4>
+      <p>Unlock premium features and increase your funding opportunities.</p>
+      <button>Upgrade Now</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" placeholder="Search investors, pitches, funding...">
+      </div>
+      <div class="topbar-right">
+        <div class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="dot">8</span></div>
+        <div class="user">
+          <div class="avatar">V</div>
+          <div class="user-info">
+            <div class="uname">Vignesh</div>
+            <div class="urole">Business Owner</div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="page-head">
+        <div>
+          <div class="crumb">Dashboard &nbsp;›&nbsp; <b>Investors &amp; Funding</b></div>
+          <h1>Investor Pitching &amp; Funding Exchange</h1>
+          <p>Pitch with confidence. Get funded. Grow your business.</p>
+        </div>
+        <div class="head-right">
+          <button class="share-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6 15.4 6.4M8.6 13.4l6.8 4.2"/></svg>
+            Share
+          </button>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon bg-primary"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
+          <div class="stat-num">28</div>
+          <div class="stat-label">Active Pitches</div>
+          <div class="stat-delta">↑ 16% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-success"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M14.5 15.4c2.5.3 4.3 1.9 4.3 4.6"/></svg></div>
+          <div class="stat-num">15</div>
+          <div class="stat-label">Investor Interests</div>
+          <div class="stat-delta">↑ 12% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="stat-num">₹ 4.85 Cr</div>
+          <div class="stat-label">Funding Requested</div>
+          <div class="stat-delta neutral">This Month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+          <div class="stat-num">₹ 2.10 Cr</div>
+          <div class="stat-label">Funding Secured</div>
+          <div class="stat-delta">↑ 18% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-info"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+          <div class="stat-num">12</div>
+          <div class="stat-label">Meetings Scheduled</div>
+          <div class="stat-delta neutral">This Week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-danger"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 3 5-7"/></svg></div>
+          <div class="stat-num">6</div>
+          <div class="stat-label">Due Diligence</div>
+          <div class="stat-delta neutral">In Progress</div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="section-title">Quick Actions</div>
+      <div class="quick-actions">
+        <button class="qa-btn"><div class="qa-icon bg-primary"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6m-3 3h6"/></svg></div>Upload Pitch Deck</button>
+        <button class="qa-btn"><div class="qa-icon bg-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>Request Funding</button>
+        <button class="qa-btn"><div class="qa-icon bg-success"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/></svg></div>Find Investors</button>
+        <button class="qa-btn"><div class="qa-icon bg-info"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>Schedule Meeting</button>
+        <button class="qa-btn"><div class="qa-icon bg-purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 3 5-7"/></svg></div>Track Funding</button>
+        <button class="qa-btn"><div class="qa-icon bg-danger"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>View Reports</button>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="charts-row">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Pitch Status Overview</h3>
+            <div class="filter-pill">This Month <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="donut-wrap">
+            <svg width="170" height="170" viewBox="0 0 42 42" style="flex-shrink:0">
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#eaecf3" stroke-width="6"></circle>
+              <g id="pitchDonut"></g>
+              <text x="21" y="19.5" text-anchor="middle" font-size="6.2" font-weight="800" fill="#1a1f36" font-family="Poppins">28</text>
+              <text x="21" y="25" text-anchor="middle" font-size="2.9" fill="#9498a8" font-family="Poppins">Total Pitches</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-row"><span class="legend-dot" style="background:#1E3A8A"></span><span class="legend-name">Draft</span><span class="legend-val">6</span><span class="legend-pct">(21%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#22C55E"></span><span class="legend-name">Active</span><span class="legend-val">12</span><span class="legend-pct">(43%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#F59E0B"></span><span class="legend-name">Under Review</span><span class="legend-val">6</span><span class="legend-pct">(21%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#8b5cf6"></span><span class="legend-name">Investor Interest</span><span class="legend-val">3</span><span class="legend-pct">(11%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#EF4444"></span><span class="legend-name">Funded</span><span class="legend-val">1</span><span class="legend-pct">(4%)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Funding Progress</h3>
+            <div class="filter-pill">This Month <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="gauge-wrap">
+            <svg width="190" height="120" viewBox="0 0 42 24" style="flex-shrink:0">
+              <path d="M3 21 A18 18 0 0 1 39 21" fill="none" stroke="#eaecf3" stroke-width="5" stroke-linecap="round"></path>
+              <g id="fundingGauge"></g>
+            </svg>
+            <div class="gauge-legend" style="margin-top:-30px">
+              <div style="text-align:left; margin-bottom:6px;">
+                <div class="gauge-center">₹ 2.10 Cr</div>
+                <div class="gauge-sub">Secured</div>
+              </div>
+              <div class="legend-row"><span class="legend-dot" style="background:#1E3A8A"></span><span class="legend-name">Goal: ₹ 5.00 Cr</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#5b6178"></span><span class="legend-name">Secured: ₹ 2.10 Cr (42%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#F59E0B"></span><span class="legend-name">In Progress: ₹ 1.30 Cr (26%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#EF4444"></span><span class="legend-name">Pending: ₹ 1.60 Cr (32%)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLES -->
+      <div class="table-row-section">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Pitch Submissions</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Startup / Business</th><th>Industry</th><th>Funding Ask</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#1E3A8A">AN</div>AgroNest Technologies</div></td>
+                  <td class="muted">Agri Tech</td>
+                  <td class="muted">₹ 50 Lakh</td>
+                  <td><span class="badge active">Active</span></td>
+                  <td class="muted">10 May 2025</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#EF4444">HS</div>Healthify Solutions</div></td>
+                  <td class="muted">Health Tech</td>
+                  <td class="muted">₹ 75 Lakh</td>
+                  <td><span class="badge review">Under Review</span></td>
+                  <td class="muted">09 May 2025</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#0EA6D4">ES</div>EduSmart Learning</div></td>
+                  <td class="muted">EdTech</td>
+                  <td class="muted">₹ 40 Lakh</td>
+                  <td><span class="badge active">Active</span></td>
+                  <td class="muted">09 May 2025</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#22C55E">GV</div>GreenVolt Energy</div></td>
+                  <td class="muted">Clean Energy</td>
+                  <td class="muted">₹ 1.20 Cr</td>
+                  <td><span class="badge interest">Investor Interest</span></td>
+                  <td class="muted">08 May 2025</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#F59E0B">LC</div>LogiChain Systems</div></td>
+                  <td class="muted">Logistics</td>
+                  <td class="muted">₹ 60 Lakh</td>
+                  <td><span class="badge active">Active</span></td>
+                  <td class="muted">07 May 2025</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Investor Interest Received</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Investor</th><th>Startup</th><th>Interest Amount</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#1E3A8A">PV</div>Peak Ventures</div></td>
+                  <td class="muted">GreenVolt Energy</td>
+                  <td class="muted">₹ 80 Lakh</td>
+                  <td><span class="badge interested">Interested</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#1a1f36">CB</div>Capital Bridge</div></td>
+                  <td class="muted">AgroNest Technologies</td>
+                  <td class="muted">₹ 50 Lakh</td>
+                  <td><span class="badge meeting">Meeting</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#22C55E">GF</div>Growth Fund India</div></td>
+                  <td class="muted">Healthify Solutions</td>
+                  <td class="muted">₹ 75 Lakh</td>
+                  <td><span class="badge interested">Interested</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#0EA6D4">BC</div>BlueSky Capital</div></td>
+                  <td class="muted">LogiChain Systems</td>
+                  <td class="muted">₹ 60 Lakh</td>
+                  <td><span class="badge reviewing">Reviewing</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main"><div class="cell-avatar" style="background:#8b5cf6">AN</div>Angel Network</div></td>
+                  <td class="muted">EduSmart Learning</td>
+                  <td class="muted">₹ 40 Lakh</td>
+                  <td><span class="badge interested">Interested</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- THREE COL: meetings / due diligence / milestones -->
+      <div class="three-row">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Upcoming Meetings</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Meeting with Peak Ventures</div><div class="ms">GreenVolt Energy</div></div>
+            <div class="meeting-date">12 May 2025<span class="time">11:00 AM</span></div>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Meeting with Capital Bridge</div><div class="ms">AgroNest Technologies</div></div>
+            <div class="meeting-date">13 May 2025<span class="time">02:30 PM</span></div>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Meeting with Growth Fund India</div><div class="ms">Healthify Solutions</div></div>
+            <div class="meeting-date">14 May 2025<span class="time">10:00 AM</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Due Diligence Status</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="dd-item">
+            <div class="dd-top">
+              <div class="dd-icon bg-success"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg></div>
+              <div><div class="dd-name">GreenVolt Energy</div><div class="dd-sub">Financial &amp; Legal Due Diligence</div></div>
+              <div class="dd-pct">60%</div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:60%;background:#22C55E"></div></div>
+          </div>
+          <div class="dd-item">
+            <div class="dd-top">
+              <div class="dd-icon bg-primary"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg></div>
+              <div><div class="dd-name">AgroNest Technologies</div><div class="dd-sub">Business Due Diligence</div></div>
+              <div class="dd-pct">40%</div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:40%;background:#1E3A8A"></div></div>
+          </div>
+          <div class="dd-item">
+            <div class="dd-top">
+              <div class="dd-icon bg-info"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg></div>
+              <div><div class="dd-name">Healthify Solutions</div><div class="dd-sub">Market Due Diligence</div></div>
+              <div class="dd-pct">70%</div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:70%;background:#0EA6D4"></div></div>
+          </div>
+          <div class="dd-item">
+            <div class="dd-top">
+              <div class="dd-icon bg-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg></div>
+              <div><div class="dd-name">LogiChain Systems</div><div class="dd-sub">Operational Due Diligence</div></div>
+              <div class="dd-pct">30%</div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:30%;background:#FF6B35"></div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Funding Milestones</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
+              <div class="tl-body"><span class="tn">Pitch Submitted</span><span class="td">10 Apr 2025</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
+              <div class="tl-body"><span class="tn">Investor Interest Received</span><span class="td">15 Apr 2025</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
+              <div class="tl-body"><span class="tn">Meeting Completed</span><span class="td">22 Apr 2025</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="8"/></svg></div>
+              <div class="tl-body"><span class="tn">Due Diligence In Progress</span><span class="td">30 Apr 2025</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot upcoming"></div>
+              <div class="tl-body"><span class="tn muted">Term Sheet</span><span class="td">Upcoming</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot upcoming"></div>
+              <div class="tl-body"><span class="tn muted">Funding Disbursement</span><span class="td">Upcoming</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top investors + Funding analytics -->
+      <div class="charts-row" style="margin-bottom:22px;">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Top Investors on Platform</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="investor-row">
+            <div class="investor-logo" style="background:#1E3A8A">P</div>
+            <div class="investor-info"><div class="iname">Peak Ventures</div><div class="icat">Early stage investor for scalable startups</div></div>
+            <div class="investor-right"><span class="stage-badge stage-1">Seed • Series A</span><a class="view-profile" href="#">View Profile</a></div>
+          </div>
+          <div class="investor-row">
+            <div class="investor-logo" style="background:#1a1f36">C</div>
+            <div class="investor-info"><div class="iname">Capital Bridge</div><div class="icat">Growth capital for high potential businesses</div></div>
+            <div class="investor-right"><span class="stage-badge stage-3">Series A • Growth</span><a class="view-profile" href="#">View Profile</a></div>
+          </div>
+          <div class="investor-row">
+            <div class="investor-logo" style="background:#22C55E">G</div>
+            <div class="investor-info"><div class="iname">Growth Fund India</div><div class="icat">Backing innovation and entrepreneurs</div></div>
+            <div class="investor-right"><span class="stage-badge stage-2">Seed • Growth</span><a class="view-profile" href="#">View Profile</a></div>
+          </div>
+          <div class="investor-row">
+            <div class="investor-logo" style="background:#0EA6D4">B</div>
+            <div class="investor-info"><div class="iname">BlueSky Capital</div><div class="icat">Investing in tomorrow's leaders</div></div>
+            <div class="investor-right"><span class="stage-badge stage-3">Growth • Late Stage</span><a class="view-profile" href="#">View Profile</a></div>
+          </div>
+          <div class="investor-row">
+            <div class="investor-logo" style="background:#8b5cf6">A</div>
+            <div class="investor-info"><div class="iname">Angel Network</div><div class="icat">Connecting startups with angel investors</div></div>
+            <div class="investor-right"><span class="stage-badge stage-1">Seed • Pre-Seed</span><a class="view-profile" href="#">View Profile</a></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Funding Analytics</h3>
+            <div class="filter-pill">This Year <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="chart-legend">
+            <div class="lg"><span class="sw" style="background:#1E3A8A"></span>Requested</div>
+            <div class="lg"><span class="sw" style="background:#22C55E"></span>Secured</div>
+          </div>
+          <div class="bar-chart" id="barChart"></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-banner">
+        <div class="cta-left">
+          <div class="cta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div>
+            <h3>Get Funded. Grow Faster.</h3>
+            <p>Connect with verified investors and raise the capital you need to scale your business.</p>
+          </div>
+        </div>
+        <button class="cta-btn">Explore Investors <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+
+      <footer>
+        <div>© 2025 COTE - Chamber Of Trade &amp; Enterprises. All rights reserved.</div>
+        <div class="flinks"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- Mobile sidebar toggle ----------
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const hamburger = document.getElementById('hamburger');
+
+function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+hamburger.addEventListener('click', openSidebar);
+overlay.addEventListener('click', closeSidebar);
+document.querySelectorAll('.sidebar .nav-item, .sidebar .brand').forEach(el=>{
+  el.addEventListener('click', ()=>{ if(window.innerWidth<=860) closeSidebar(); });
+});
+
+// ---------- Donut chart renderer ----------
+function renderDonut(elId, segments){
+  const g = document.getElementById(elId);
+  const r = 15.9, cx = 21, cy = 21;
+  const circumference = 2 * Math.PI * r;
+  let offsetAcc = 0;
+  segments.forEach(seg=>{
+    const dash = (seg.pct/100) * circumference;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', r);
+    circle.setAttribute('fill','none');
+    circle.setAttribute('stroke', seg.color);
+    circle.setAttribute('stroke-width','6');
+    circle.setAttribute('stroke-dasharray', `${dash} ${circumference-dash}`);
+    circle.setAttribute('stroke-dashoffset', -offsetAcc);
+    circle.setAttribute('transform','rotate(-90 21 21)');
+    circle.style.transition = 'stroke-dasharray .8s ease';
+    g.appendChild(circle);
+    offsetAcc += dash;
+  });
+}
+
+renderDonut('pitchDonut', [
+  {pct:21, color:'#1E3A8A'},
+  {pct:43, color:'#22C55E'},
+  {pct:21, color:'#F59E0B'},
+  {pct:11, color:'#8b5cf6'},
+  {pct:4,  color:'#EF4444'},
+]);
+
+// ---------- Gauge (semi-donut) ----------
+function renderGauge(elId, segments){
+  const g = document.getElementById(elId);
+  const r = 18, cx = 21, cy = 21;
+  const half = Math.PI * r; // half circumference (180deg arc)
+  let offsetAcc = 0;
+  segments.forEach(seg=>{
+    const dash = (seg.pct/100) * half;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M3 21 A18 18 0 0 1 39 21');
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke', seg.color);
+    path.setAttribute('stroke-width','5');
+    path.setAttribute('stroke-linecap','round');
+    path.setAttribute('stroke-dasharray', `${dash} ${half*2}`);
+    path.setAttribute('stroke-dashoffset', -offsetAcc);
+    g.appendChild(path);
+    offsetAcc += dash;
+  });
+}
+renderGauge('fundingGauge', [
+  {pct:42, color:'#1E3A8A'},
+  {pct:26, color:'#F59E0B'},
+  {pct:32, color:'#EF4444'},
+]);
+
+// ---------- Bar chart ----------
+const barData = [
+  {m:'Jan', req:1.4, sec:0.6},
+  {m:'Feb', req:1.7, sec:0.9},
+  {m:'Mar', req:1.5, sec:0.7},
+  {m:'Apr', req:1.6, sec:0.8},
+  {m:'May', req:2.0, sec:1.2},
+  {m:'Jun', req:1.3, sec:0.6},
+  {m:'Jul', req:1.5, sec:0.9},
+];
+const maxVal = 2.0;
+const chartEl = document.getElementById('barChart');
+barData.forEach(d=>{
+  const group = document.createElement('div');
+  group.className = 'bar-group';
+  const bars = document.createElement('div');
+  bars.className = 'bars';
+  const reqH = (d.req/maxVal)*180;
+  const secH = (d.sec/maxVal)*180;
+  bars.innerHTML = `
+    <div class="bar" style="height:${reqH}px;background:#1E3A8A"></div>
+    <div class="bar" style="height:${secH}px;background:#22C55E"></div>
+  `;
+  const label = document.createElement('div');
+  label.className = 'bar-label';
+  label.textContent = d.m;
+  group.appendChild(bars);
+  group.appendChild(label);
+  chartEl.appendChild(group);
+});
+
+// ---------- View Profile hover-like click feedback ----------
+document.querySelectorAll('.view-profile').forEach(btn=>{
+  btn.addEventListener('click', e=>{ e.preventDefault(); });
+});
+</script>
+
+</body>
+</html>

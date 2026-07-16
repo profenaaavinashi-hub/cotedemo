@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>COTE — Business Mentor Network</title>
+<style>
+  :root{
+    --primary:#1E3A8A;
+    --navy:#0d1638;
+    --navy-2:#131f4d;
+    --purple:#6c5ce7;
+    --purple-dark:#5849c2;
+    --green:#22c55e;
+    --orange:#f5a623;
+    --blue:#3b82f6;
+    --teal:#14b8a6;
+    --pink:#f43f5e;
+    --bg:#f4f5fa;
+    --card:#ffffff;
+    --text:#1b2140;
+    --sub:#8a90a6;
+    --border:#eef0f6;
+    --navy-darker:#0b122e;
+    --radius:16px;
+    --shadow:0 4px 18px rgba(20,25,60,0.06);
+    --shadow-hover:0 12px 28px rgba(20,25,60,0.12);
+  }
+
+   *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--text-dark);
+    -webkit-font-smoothing:antialiased;
+  }
+ a{text-decoration:none; color:inherit;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+
+  /* ---------- Layout shell ---------- */
+  .app{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+     background:var(--navy-darker);
+    color:#CBD5E1;
+    padding:22px 16px 20px;
+    display:flex;flex-direction:column;
+    position:sticky;top:0;height:100vh;
+    overflow-y:auto;
+    z-index:40;
+    transition:transform .35s ease;
+  }
+  .sidebar::-webkit-scrollbar{width:5px;}
+  .sidebar::-webkit-scrollbar-thumb{background:#2a3568;border-radius:4px;}
+
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 6px 22px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    margin-bottom:18px;
+  }
+  .brand .logo-mark{
+    width:40px;height:40px;border-radius:10px;
+    background:linear-gradient(135deg,#FF6835,#1E3A8A);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;font-size:15px;letter-spacing:.5px;
+    flex-shrink:0;
+  }
+  .brand .brand-text{line-height:1.1;}
+  .brand .brand-text b{display:block;font-size:15px;color:#fff;letter-spacing:.5px;}
+  .brand .brand-text span{font-size:9px;color:#8B95B5;letter-spacing:1px;text-transform:uppercase;}
+
+
+  .nav-group-label{ font-size:10.5px; letter-spacing:.08em; color:#726ea0; font-weight:700; padding:14px 10px 6px; }
+  .nav{display:flex; flex-direction:column; gap:2px;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px; padding:9px 12px; border-radius:10px;
+    font-size:13.5px; font-weight:500; color:#b3b0d1;
+    transition:background .15s, color .15s; white-space:nowrap;
+  }
+  .nav-item svg{width:17px;height:17px; flex-shrink:0; opacity:.85;}
+  .nav-item:hover{background:#241d4d; color:#fff;}
+  .nav-item.active{background:var(--primary); color:#fff;}
+  .nav-item.active svg{opacity:1;}
+
+  .upgrade-card{
+    margin-top:22px;padding:18px 16px;border-radius:14px;
+    background:radial-gradient(120% 140% at 20% 0%, #7c6bf0 0%, #4a3fc4 60%, #2f2694 100%);
+    color:#fff;position:relative;overflow:hidden;
+  }
+  .upgrade-card::after{
+    content:"";position:absolute;inset:-40% -20% auto auto;width:160px;height:160px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 60%);
+  }
+  .upgrade-card .crown{font-size:20px;margin-bottom:8px;}
+  .upgrade-card h4{font-size:14px;margin-bottom:4px;}
+  .upgrade-card p{font-size:11.5px;color:#e2defc;line-height:1.4;margin-bottom:12px;}
+  .upgrade-card button{
+    background:#fff;color:var(--purple-dark);font-weight:700;font-size:12.5px;
+    padding:9px 16px;border-radius:8px;transition:transform .2s;
+  }
+  .upgrade-card button:hover{transform:scale(1.04);}
+
+  /* ---------- Overlay for mobile sidebar ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(10,14,35,.5);
+    opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:35;
+  }
+  .overlay.show{opacity:1;pointer-events:auto;}
+
+  /* ---------- Main ---------- */
+  .main{min-width:0;}
+
+  .topbar{
+    display:flex;align-items:center;gap:16px;
+    padding:16px 28px;background:#fff;border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:30;
+  }
+  .hamburger{display:none;width:38px;height:38px;border-radius:9px;background:var(--bg);align-items:center;justify-content:center;flex:none;}
+  .hamburger svg{width:19px;height:19px;}
+
+  .search-wrap{
+    flex:1;max-width:420px;display:flex;align-items:center;gap:10px;
+    background:var(--bg);border-radius:10px;padding:10px 14px;
+    border:1px solid transparent;transition:border .2s;
+  }
+  .search-wrap:focus-within{border-color:var(--purple);}
+  .search-wrap svg{width:16px;height:16px;color:var(--sub);flex:none;}
+  .search-wrap input{background:none;border:none;outline:none;font-size:13.5px;width:100%;color:var(--text);}
+
+  .topbar-right{display:flex;align-items:center;gap:18px;margin-left:auto;}
+  .bell{position:relative;width:38px;height:38px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex:none;}
+  .bell svg{width:17px;height:17px;}
+  .bell .dot{
+    position:absolute;top:-4px;right:-4px;background:var(--pink);color:#fff;
+    font-size:9.5px;font-weight:700;width:17px;height:17px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;border:2px solid #fff;
+  }
+  .user{display:flex;align-items:center;gap:10px;cursor:pointer;}
+  .user img{width:38px;height:38px;border-radius:10px;object-fit:cover;}
+  .user .u-name{font-size:13.5px;font-weight:700;}
+  .user .u-role{font-size:11px;color:var(--sub);}
+  .user svg{width:12px;height:12px;color:var(--sub);}
+
+  .content{padding:26px 28px 60px;max-width:1500px;}
+
+  .page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+  .page-head h1{font-size:23px;font-weight:800;margin-bottom:4px;}
+  .page-head .crumb{font-size:12.5px;color:var(--sub);}
+  .page-head .crumb b{color:var(--purple);font-weight:600;}
+  .share-btn{
+    display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);
+    padding:9px 16px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:var(--shadow);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .share-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- Stat cards ---------- */
+  .stats-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:26px;
+  }
+  .stat-card{
+    background:var(--card);border-radius:var(--radius);padding:18px;
+    box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease;
+    border:1px solid var(--border);
+  }
+  .stat-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-hover);}
+  .stat-icon{
+    width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    margin-bottom:14px;color:#fff;
+  }
+  .stat-icon svg{width:18px;height:18px;}
+  .stat-num{font-size:24px;font-weight:800;margin-bottom:3px;}
+  .stat-label{font-size:12px;color:var(--sub);margin-bottom:8px;}
+  .stat-delta{font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;}
+  .stat-delta.up{color:var(--green);}
+  .stat-delta.neutral{color:var(--sub);font-weight:600;}
+
+  /* ---------- Quick actions ---------- */
+  .section-title{font-size:15.5px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+  .section-title .view-all{font-size:12px;color:var(--purple);font-weight:700;display:flex;align-items:center;gap:4px;}
+
+  .quick-actions{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px;
+  }
+  .qa-btn{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:9px;
+    font-size:12.3px;font-weight:600;box-shadow:var(--shadow);
+    transition:transform .22s ease, box-shadow .22s ease, background .22s;
+  }
+  .qa-btn:hover{transform:translateY(-4px) scale(1.02);box-shadow:var(--shadow-hover);background:#faf9ff;}
+  .qa-btn .ic{
+    width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  }
+  .qa-btn .ic svg{width:16px;height:16px;}
+
+  /* ---------- Popular expertise ---------- */
+  .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;}
+  .pill{
+    background:var(--card);border:1px solid var(--border);padding:9px 16px;border-radius:20px;
+    font-size:12.5px;font-weight:600;box-shadow:var(--shadow);cursor:pointer;
+    transition:.2s ease;
+  }
+  .pill:hover{background:var(--purple);color:#fff;transform:translateY(-2px);}
+
+  /* ---------- Grid: charts + consultations ---------- */
+  .row-3{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:18px;margin-bottom:22px;align-items:stretch;}
+
+  .card{
+    background:var(--card);border-radius:var(--radius);padding:20px;
+    box-shadow:var(--shadow);border:1px solid var(--border);
+  }
+  .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .card-head h3{font-size:14.5px;font-weight:800;}
+  .filter-chip{font-size:11.5px;color:var(--sub);background:var(--bg);padding:6px 10px;border-radius:8px;display:flex;align-items:center;gap:5px;font-weight:600;}
+
+  .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  .donut-legend{width:100%;display:flex;flex-direction:column;gap:9px;}
+  .legend-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+  .legend-left{display:flex;align-items:center;gap:8px;color:var(--text);font-weight:500;}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .legend-val{color:var(--sub);font-weight:600;}
+
+  .donut-svg{transform:rotate(-90deg);}
+  .donut-center{font-size:22px;font-weight:800;}
+  .donut-center-sub{font-size:10.5px;color:var(--sub);font-weight:600;}
+
+  .consult-list{display:flex;flex-direction:column;gap:14px;}
+  .consult-item{display:flex;align-items:center;gap:12px;transition:transform .2s;}
+  .consult-item:hover{transform:translateX(4px);}
+  .consult-item img{width:40px;height:40px;border-radius:10px;object-fit:cover;flex:none;}
+  .consult-info b{font-size:13px;display:block;}
+  .consult-info span{font-size:11.5px;color:var(--sub);}
+  .consult-time{margin-left:auto;text-align:right;font-size:11px;color:var(--sub);font-weight:600;white-space:nowrap;}
+
+  /* ---------- Top rated mentors ---------- */
+  .mentor-scroll{
+    display:flex;gap:16px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;
+  }
+  .mentor-scroll::-webkit-scrollbar{height:6px;}
+  .mentor-scroll::-webkit-scrollbar-thumb{background:#e3e5f0;border-radius:6px;}
+  .mentor-card{
+    min-width:190px;background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:16px;text-align:center;box-shadow:var(--shadow);scroll-snap-align:start;flex:none;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .mentor-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);}
+  .mentor-avatar{position:relative;width:64px;height:64px;margin:0 auto 10px;}
+  .mentor-avatar img{width:64px;height:64px;border-radius:50%;object-fit:cover;}
+  .mentor-avatar .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:var(--green);border-radius:50%;border:2px solid #fff;}
+  .mentor-card b{font-size:13.5px;display:block;}
+  .mentor-card .role{font-size:11.5px;color:var(--sub);margin-bottom:6px;}
+  .mentor-card .rating{font-size:12px;color:var(--orange);font-weight:700;margin-bottom:6px;}
+  .mentor-card .exp{font-size:10.8px;color:var(--sub);margin-bottom:12px;}
+  .mentor-card .view-btn{
+    width:100%;padding:8px;border-radius:8px;background:var(--bg);font-size:12px;font-weight:700;
+    color:var(--purple);transition:.2s;
+  }
+  .mentor-card .view-btn:hover{background:var(--purple);color:#fff;}
+
+  /* ---------- Row: table + impact ---------- */
+  .row-2{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:22px;align-items:start;}
+
+  table{width:100%;border-collapse:collapse;}
+  th{text-align:left;font-size:11px;color:var(--sub);padding:8px 6px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  td{padding:11px 6px;font-size:12.8px;border-top:1px solid var(--border);}
+  .mentor-cell{display:flex;align-items:center;gap:9px;font-weight:700;}
+  .mentor-cell img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+  .act-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text);}
+  .act-badge svg{width:13px;height:13px;flex:none;}
+  tr{transition:background .2s;}
+  tbody tr:hover{background:#faf9ff;}
+
+  .impact-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--border);}
+  .impact-item:first-child{border-top:none;padding-top:0;}
+  .impact-ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .impact-ic svg{width:17px;height:17px;color:#fff;}
+  .impact-label{font-size:12px;color:var(--sub);margin-bottom:2px;}
+  .impact-num{font-size:16.5px;font-weight:800;}
+  .impact-delta{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--green);}
+
+  .topic-row{margin-bottom:14px;}
+  .topic-row:last-child{margin-bottom:0;}
+  .topic-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:6px;}
+  .topic-bar{height:7px;background:var(--bg);border-radius:6px;overflow:hidden;}
+  .topic-fill{height:100%;border-radius:6px;width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1);}
+
+  /* ---------- Webinars / testimonials / categories ---------- */
+  .row-3b{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:22px;align-items:start;}
+
+  .webinar-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--border);}
+  .webinar-item:first-child{border-top:none;padding-top:0;}
+  .webinar-ic{width:38px;height:38px;border-radius:10px;background:#eef0ff;color:var(--purple);display:flex;align-items:center;justify-content:center;flex:none;}
+  .webinar-ic svg{width:16px;height:16px;}
+  .webinar-info b{font-size:12.6px;display:block;}
+  .webinar-info span{font-size:11px;color:var(--sub);}
+  .register-btn{margin-left:auto;font-size:11px;font-weight:700;color:var(--purple);background:#eef0ff;padding:6px 12px;border-radius:7px;white-space:nowrap;transition:.2s;}
+  .register-btn:hover{background:var(--purple);color:#fff;}
+
+  .testimonial{padding:14px 0;border-top:1px solid var(--border);}
+  .testimonial:first-child{border-top:none;padding-top:0;}
+  .testimonial p{font-size:12.6px;font-style:italic;color:var(--text);line-height:1.5;margin-bottom:10px;}
+  .t-user{display:flex;align-items:center;gap:10px;}
+  .t-user img{width:32px;height:32px;border-radius:50%;object-fit:cover;}
+  .t-user b{font-size:12px;display:block;}
+  .t-user span{font-size:10.8px;color:var(--sub);}
+  .t-stars{margin-left:auto;color:var(--orange);font-size:11px;}
+
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .cat-item{
+    display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);
+    border-radius:11px;transition:.2s;
+  }
+  .cat-item:hover{border-color:var(--purple);transform:translateY(-2px);}
+  .cat-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .cat-ic svg{width:14px;height:14px;color:#fff;}
+  .cat-item b{font-size:12px;display:block;}
+  .cat-item span{font-size:10.5px;color:var(--sub);}
+
+  /* ---------- CTA banner ---------- */
+  .cta-banner{
+    background:linear-gradient(120deg,#6c5ce7 0%, #4834c9 100%);
+    border-radius:20px;padding:34px 36px;display:flex;align-items:center;justify-content:space-between;
+    gap:24px;flex-wrap:wrap;color:#fff;margin-bottom:28px;position:relative;overflow:hidden;
+  }
+  .cta-banner::before{
+    content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+    background:rgba(255,255,255,.08);top:-120px;right:-60px;
+  }
+  .cta-banner h2{font-size:22px;font-weight:800;margin-bottom:6px;}
+  .cta-banner p{font-size:13px;color:#dcd7fb;}
+  .cta-btn{
+    background:#fff;color:var(--purple-dark);font-weight:700;font-size:13.5px;
+    padding:13px 22px;border-radius:10px;display:flex;align-items:center;gap:8px;
+    transition:transform .2s;position:relative;z-index:1;
+  }
+  .cta-btn:hover{transform:translateX(3px) scale(1.03);}
+  .cta-btn svg{width:14px;height:14px;transition:transform .2s;}
+  .cta-btn:hover svg{transform:translateX(3px);}
+
+  footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:11.5px;color:var(--sub);padding-top:6px;}
+  footer .links{display:flex;gap:18px;}
+
+  /* ---------- Animations ---------- */
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 1.6s infinite;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1200px){
+    .stats-grid{grid-template-columns:repeat(3,1fr);}
+    .quick-actions{grid-template-columns:repeat(3,1fr);}
+    .row-3{grid-template-columns:1fr 1fr;}
+    .row-3 .card:nth-child(3){grid-column:1 / -1;}
+    .row-3b{grid-template-columns:1fr 1fr;}
+    .row-3b .card:nth-child(3){grid-column:1 / -1;}
+  }
+
+  @media (max-width:980px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed;left:0;top:0;width:260px;transform:translateX(-100%);
+      box-shadow:20px 0 60px rgba(0,0,0,.3);
+    }
+    .sidebar.open{transform:translateX(0);}
+    .hamburger{display:flex;}
+    .row-2{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:720px){
+    .content{padding:18px 16px 44px;}
+    .topbar{padding:14px 16px;}
+    .search-wrap{max-width:none;}
+    .user .u-name,.user .u-role{display:none;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+    .quick-actions{grid-template-columns:repeat(2,1fr);}
+    .row-3{grid-template-columns:1fr;}
+    .row-3 .card:nth-child(3){grid-column:auto;}
+    .row-3b{grid-template-columns:1fr;}
+    .row-3b .card:nth-child(3){grid-column:auto;}
+    .cat-grid{grid-template-columns:1fr;}
+    table{display:block;overflow-x:auto;white-space:nowrap;}
+    .cta-banner{padding:26px 22px;}
+    .page-head h1{font-size:20px;}
+  }
+
+  @media (max-width:420px){
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .quick-actions{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo-mark">C</div>
+      <div class="brand-text"><b>COTE</b><span>Chamber of Trade &amp; Enterprise</span></div>
+    </div>
+
+
+    <div class="nav-label">Main</div>
+    <a class="nav-item"><span class="ic">🏠</span> Dashboard</a>
+
+    <div class="nav-label">Business Mentor Network</div>
+    <a class="nav-item active"><span class="ic">👥</span> Mentor Dashboard</a>
+    <a class="nav-item"><span class="ic">📋</span> Mentor Listing</a>
+    <a class="nav-item"><span class="ic">🪪</span> Mentor Profiles</a>
+    <a class="nav-item"><span class="ic">🔍</span> Search Mentors</a>
+    <a class="nav-item"><span class="ic">📅</span> Book Consultation</a>
+    <a class="nav-item"><span class="ic">🗂️</span> My Consultations</a>
+    <a class="nav-item"><span class="ic">💬</span> Mentor Chat</a>
+    <a class="nav-item"><span class="ic">📝</span> Consultation Form</a>
+    <a class="nav-item"><span class="ic">⭐</span> Feedback &amp; Reviews</a>
+    <a class="nav-item"><span class="ic">📚</span> Knowledge Resources</a>
+
+    <div class="upgrade-card">
+      <div class="crown">👑</div>
+      <h4>Upgrade to Premium</h4>
+      <p>Unlock premium mentorship benefits and priority access.</p>
+      <button>Upgrade Now</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <div class="topbar">
+      <button class="hamburger" id="hamburger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <div class="search-wrap">
+         <span>🔍</span>
+        <input type="text" placeholder="Search mentors, expertise, topics...">
+      </div>
+
+      <div class="topbar-right">
+        <div class="bell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="dot">8</span>
+        </div>
+        <div class="user">
+          <img src="https://i.pravatar.cc/80?img=12" alt="Vignesh">
+          <div>
+            <div class="u-name">Vignesh</div>
+            <div class="u-role">Business Owner</div>
+          </div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="page-head reveal">
+        <div>
+          <h1>Business Mentor Network</h1>
+          <div class="crumb">Get expert guidance. Grow your business with experienced mentors.</div>
+        </div>
+        <button class="share-btn">Share
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg>
+        </button>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid reveal" id="statsGrid"></div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="section-title reveal">Quick Actions</div>
+      <div class="quick-actions reveal" id="quickActions"></div>
+
+      <!-- POPULAR EXPERTISE -->
+      <div class="section-title reveal">Popular Expertise <span class="view-all">View All ›</span></div>
+      <div class="pill-row reveal" id="pillRow"></div>
+
+      <!-- CHARTS + CONSULTATIONS -->
+      <div class="row-3">
+        <div class="card reveal">
+          <div class="card-head"><h3>Mentor Expertise Distribution</h3><span class="filter-chip">This Month ▾</span></div>
+          <div class="donut-wrap">
+            <svg class="donut-svg" id="donutExpertise" width="150" height="150" viewBox="0 0 150 150"></svg>
+            <div class="donut-legend" id="legendExpertise"></div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-head"><h3>Consultation Status</h3><span class="filter-chip">This Month ▾</span></div>
+          <div class="donut-wrap">
+            <svg class="donut-svg" id="donutStatus" width="150" height="150" viewBox="0 0 150 150"></svg>
+            <div class="donut-legend" id="legendStatus"></div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-head"><h3>Upcoming Consultations</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+          <div class="consult-list" id="consultList"></div>
+        </div>
+      </div>
+
+      <!-- TOP RATED MENTORS -->
+      <div class="card reveal" style="margin-bottom:22px;">
+        <div class="card-head"><h3>Top Rated Mentors</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+        <div class="mentor-scroll" id="mentorScroll"></div>
+      </div>
+
+      <!-- ACTIVITIES + IMPACT -->
+      <div class="row-2">
+        <div class="card reveal">
+          <div class="card-head"><h3>Recent Mentor Activities</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+          <table>
+            <thead><tr><th>Mentor</th><th>Activity</th><th>Topic</th><th>Time</th></tr></thead>
+            <tbody id="activityBody"></tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div class="card reveal">
+            <div class="card-head"><h3>Mentorship Impact</h3><span class="filter-chip">This Month ▾</span></div>
+            <div id="impactList"></div>
+          </div>
+
+          <div class="card reveal">
+            <div class="card-head"><h3>Top Topics Discussed</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+            <div id="topicsList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEBINARS / TESTIMONIALS / CATEGORIES -->
+      <div class="row-3b">
+        <div class="card reveal">
+          <div class="card-head"><h3>Upcoming Webinars</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+          <div id="webinarList"></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-head"><h3>What Members Say</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+          <div id="testimonialList"></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-head"><h3>Consultation Categories</h3><span class="filter-chip" style="background:none;color:var(--purple);">View All ›</span></div>
+          <div class="cat-grid" id="catGrid"></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-banner reveal">
+        <div>
+          <h2>Get Expert Guidance. Grow Faster.</h2>
+          <p>Book a consultation with our experienced mentors and take your business to the next level.</p>
+        </div>
+        <a class="cta-btn">Find a Mentor Now
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <footer>
+        <div>© 2026 COTE - Chamber Of Trade &amp; Enterprises. All rights reserved.</div>
+        <div class="links"><a>Privacy Policy</a><a>Terms &amp; Conditions</a></div>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ============ ICONS ============ */
+const ICONS = {
+  mentors:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+  form:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>',
+  resource:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  growth:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+  briefcase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.7.5 1 1.4 1 2.3h6c0-.9.3-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>',
+  publish:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>',
+  join:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
+  review:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>'
+};
+
+/* ============ DATA ============ */
+const stats = [
+  {num:156, label:'Expert Mentors', delta:'↑ 18% this month', icon:ICONS.mentors, color:'#7c6cf0', up:true},
+  {num:48, label:'Sessions Booked', delta:'↑ 22% this month', icon:ICONS.calendar, color:'#22c55e', up:true},
+  {num:24, label:'Ongoing Consultations', delta:'In Progress', icon:ICONS.chat, color:'#f5a623', up:false},
+  {num:4.8, suffix:'/5', label:'Average Rating', delta:'↑ 0.3 this month', icon:ICONS.star, color:'#3b82f6', up:true, decimal:true},
+  {num:86, label:'Knowledge Articles', delta:'This Month', icon:ICONS.book, color:'#14b8a6', up:false},
+  {num:92, suffix:'%', label:'Satisfaction Rate', delta:'This Quarter', icon:ICONS.user, color:'#f43f5e', up:false},
+];
+
+const quickActions = [
+  {label:'Search Mentors', icon:ICONS.search, bg:'#eef0ff', color:'#6c5ce7'},
+  {label:'Book Consultation', icon:ICONS.calendar, bg:'#e8faf0', color:'#22c55e'},
+  {label:'My Consultations', icon:ICONS.user, bg:'#fdf1e4', color:'#f5a623'},
+  {label:'Consultation Form', icon:ICONS.form, bg:'#e9f2ff', color:'#3b82f6'},
+  {label:'Knowledge Resources', icon:ICONS.resource, bg:'#e7f9f5', color:'#14b8a6'},
+];
+
+const pills = ['Business Strategy','Marketing & Sales','Finance & Funding','Operations','Legal & Compliance','Technology','HR & Leadership','Export Business'];
+
+const expertiseData = [
+  {label:'Business Strategy', pct:28, val:44, color:'#3b82f6'},
+  {label:'Marketing & Sales', pct:20, val:31, color:'#f5a623'},
+  {label:'Finance & Funding', pct:18, val:28, color:'#22c55e'},
+  {label:'Operations', pct:12, val:19, color:'#f43f5e'},
+  {label:'Legal & Compliance', pct:10, val:16, color:'#6c5ce7'},
+  {label:'Others', pct:12, val:18, color:'#c9cce0'},
+];
+
+const statusData = [
+  {label:'Completed', pct:42, val:20, color:'#22c55e'},
+  {label:'Ongoing', pct:50, val:24, color:'#3b82f6'},
+  {label:'Upcoming', pct:8, val:4, color:'#f5a623'},
+];
+
+const consultations = [
+  {name:'Ravi Kumar', topic:'Business Strategy', date:'12 May 2025', time:'11:00 AM', img:'https://i.pravatar.cc/80?img=13'},
+  {name:'Anita Sharma', topic:'Finance & Funding', date:'13 May 2025', time:'02:30 PM', img:'https://i.pravatar.cc/80?img=47'},
+  {name:'Suresh Nair', topic:'Marketing & Sales', date:'14 May 2025', time:'10:00 AM', img:'https://i.pravatar.cc/80?img=33'},
+  {name:'Meena Iyer', topic:'Legal & Compliance', date:'15 May 2025', time:'03:00 PM', img:'https://i.pravatar.cc/80?img=45'},
+];
+
+const mentors = [
+  {name:'Ravi Kumar', role:'Business Strategy', rating:'4.9 (128)', exp:'15+ Years Exp. · 320 Sessions', img:'https://i.pravatar.cc/120?img=13'},
+  {name:'Anita Sharma', role:'Finance & Funding', rating:'4.8 (112)', exp:'12+ Years Exp. · 280 Sessions', img:'https://i.pravatar.cc/120?img=47'},
+  {name:'Suresh Nair', role:'Marketing & Sales', rating:'4.8 (105)', exp:'10+ Years Exp. · 250 Sessions', img:'https://i.pravatar.cc/120?img=33'},
+  {name:'Meena Iyer', role:'Legal & Compliance', rating:'4.7 (98)', exp:'18+ Years Exp. · 210 Sessions', img:'https://i.pravatar.cc/120?img=45'},
+  {name:'Arun Prakash', role:'Operations', rating:'4.7 (94)', exp:'14+ Years Exp. · 197 Sessions', img:'https://i.pravatar.cc/120?img=51'},
+];
+
+const activities = [
+  {name:'Ravi Kumar', img:'https://i.pravatar.cc/60?img=13', act:'Published new article', icon:ICONS.publish, topic:'10 Growth Strategies for SMEs', time:'2h ago'},
+  {name:'Anita Sharma', img:'https://i.pravatar.cc/60?img=47', act:'Completed a session', icon:ICONS.check, topic:'Funding Your Business', time:'4h ago'},
+  {name:'Suresh Nair', img:'https://i.pravatar.cc/60?img=33', act:'Joined as mentor', icon:ICONS.join, topic:'Marketing & Sales', time:'6h ago'},
+  {name:'Meena Iyer', img:'https://i.pravatar.cc/60?img=45', act:'Uploaded resource', icon:ICONS.upload, topic:'Legal Checklist for Startups', time:'8h ago'},
+  {name:'Arun Prakash', img:'https://i.pravatar.cc/60?img=51', act:'Reviewed a consultation', icon:ICONS.review, topic:'Operations Efficiency', time:'10h ago'},
+];
+
+const impacts = [
+  {label:'Businesses Guided', num:125, delta:'↑ 16%', icon:ICONS.briefcase, color:'#3b82f6'},
+  {label:'Problems Solved', num:78, delta:'↑ 20%', icon:ICONS.bulb, color:'#f5a623'},
+  {label:'Business Growth Reported', num:'68%', delta:'↑ 12%', icon:ICONS.growth, color:'#22c55e'},
+];
+
+const topics = [
+  {label:'Business Growth', pct:45, color:'#6c5ce7'},
+  {label:'Funding & Investment', pct:30, color:'#3b82f6'},
+  {label:'Marketing Strategies', pct:25, color:'#f5a623'},
+  {label:'Legal Compliance', pct:20, color:'#22c55e'},
+  {label:'Operations Management', pct:18, color:'#f43f5e'},
+];
+
+const webinars = [
+  {title:'How to Scale Your Business', by:'Ravi Kumar', date:'20 May 2025', time:'11:00 AM'},
+  {title:'Get Funding for Your Startup', by:'Anita Sharma', date:'22 May 2025', time:'02:00 PM'},
+  {title:'Digital Marketing Masterclass', by:'Suresh Nair', date:'24 May 2025', time:'10:30 AM'},
+];
+
+const testimonials = [
+  {text:'The mentorship I received from COTE mentor network helped me secure funding and grow my business 3x in 6 months.', name:'Karthik R.', role:'Founder, TechNova Solutions', img:'https://i.pravatar.cc/60?img=15'},
+  {text:'Very insightful sessions and practical advice. Highly recommend the mentors here!', name:'Priya S.', role:'CEO, GreenLeaf Organics', img:'https://i.pravatar.cc/60?img=48'},
+];
+
+const categories = [
+  {label:'Business Strategy', count:'44 Mentors', icon:ICONS.briefcase, color:'#22c55e'},
+  {label:'Finance & Funding', count:'28 Mentors', icon:ICONS.growth, color:'#3b82f6'},
+  {label:'Marketing & Sales', count:'31 Mentors', icon:ICONS.chat, color:'#f5a623'},
+  {label:'Operations', count:'19 Mentors', icon:ICONS.form, color:'#f43f5e'},
+  {label:'Legal & Compliance', count:'16 Mentors', icon:ICONS.book, color:'#6c5ce7'},
+  {label:'HR & Leadership', count:'14 Mentors', icon:ICONS.user, color:'#14b8a6'},
+];
+
+/* ============ RENDERERS ============ */
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+
+function renderStats(){
+  const grid = document.getElementById('statsGrid');
+  stats.forEach(s=>{
+    const card = el(`
+      <div class="stat-card">
+        <div class="stat-icon" style="background:${s.color}">${s.icon}</div>
+        <div class="stat-num" data-target="${s.num}" data-suffix="${s.suffix||''}" data-decimal="${s.decimal?1:0}">0</div>
+        <div class="stat-label">${s.label}</div>
+        <div class="stat-delta ${s.up?'up':'neutral'}">${s.delta}</div>
+      </div>`);
+    grid.appendChild(card);
+  });
+}
+
+function renderQuickActions(){
+  const wrap = document.getElementById('quickActions');
+  quickActions.forEach(q=>{
+    wrap.appendChild(el(`
+      <button class="qa-btn">
+        <span class="ic" style="background:${q.bg};color:${q.color}">${q.icon}</span>
+        ${q.label}
+      </button>`));
+  });
+}
+
+function renderPills(){
+  const wrap = document.getElementById('pillRow');
+  pills.forEach(p=> wrap.appendChild(el(`<div class="pill">${p}</div>`)));
+}
+
+function renderDonut(svgId, legendId, data, centerLabel){
+  const svg = document.getElementById(svgId);
+  const cx=75, cy=75, r=58, stroke=20;
+  const circumference = 2*Math.PI*r;
+  let offsetAcc = 0;
+  const total = data.reduce((a,b)=>a+b.pct,0);
+
+  data.forEach(d=>{
+    const dash = (d.pct/total) * circumference;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
+    circle.setAttribute('fill','none');
+    circle.setAttribute('stroke',d.color);
+    circle.setAttribute('stroke-width',stroke);
+    circle.setAttribute('stroke-dasharray', `0 ${circumference}`);
+    circle.setAttribute('stroke-dashoffset', -offsetAcc);
+    circle.style.transition = 'stroke-dasharray 1.2s cubic-bezier(.2,.8,.2,1)';
+    circle.dataset.dash = dash;
+    svg.appendChild(circle);
+    offsetAcc += dash;
+  });
+
+  const fo = document.createElementNS('http://www.w3.org/2000/svg','foreignObject');
+  fo.setAttribute('x',0); fo.setAttribute('y',0); fo.setAttribute('width',150); fo.setAttribute('height',150);
+  fo.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" style="width:150px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(90deg);font-family:inherit;">
+    <div class="donut-center">${centerLabel.num}</div><div class="donut-center-sub">${centerLabel.sub}</div></div>`;
+  svg.appendChild(fo);
+
+  const legend = document.getElementById(legendId);
+  data.forEach(d=>{
+    legend.appendChild(el(`
+      <div class="legend-row">
+        <div class="legend-left"><span class="legend-dot" style="background:${d.color}"></span>${d.label}</div>
+        <div class="legend-val">${d.pct}% (${d.val})</div>
+      </div>`));
+  });
+
+  return ()=>{ svg.querySelectorAll('circle').forEach(c=> c.setAttribute('stroke-dasharray', `${c.dataset.dash} ${circumference}`)); };
+}
+
+function renderConsultations(){
+  const wrap = document.getElementById('consultList');
+  consultations.forEach(c=>{
+    wrap.appendChild(el(`
+      <div class="consult-item">
+        <img src="${c.img}" alt="${c.name}">
+        <div class="consult-info"><b>${c.name}</b><span>${c.topic}</span></div>
+        <div class="consult-time">${c.date}<br>${c.time}</div>
+      </div>`));
+  });
+}
+
+function renderMentors(){
+  const wrap = document.getElementById('mentorScroll');
+  mentors.forEach(m=>{
+    wrap.appendChild(el(`
+      <div class="mentor-card">
+        <div class="mentor-avatar"><img src="${m.img}" alt="${m.name}"><span class="dot"></span></div>
+        <b>${m.name}</b>
+        <div class="role">${m.role}</div>
+        <div class="rating">★★★★★ ${m.rating}</div>
+        <div class="exp">${m.exp}</div>
+        <button class="view-btn">View Profile</button>
+      </div>`));
+  });
+}
+
+function renderActivities(){
+  const body = document.getElementById('activityBody');
+  activities.forEach(a=>{
+    body.appendChild(el(`
+      <tr>
+        <td><div class="mentor-cell"><img src="${a.img}" alt="${a.name}">${a.name}</div></td>
+        <td><span class="act-badge">${a.icon}${a.act}</span></td>
+        <td>${a.topic}</td>
+        <td>${a.time}</td>
+      </tr>`));
+  });
+}
+
+function renderImpact(){
+  const wrap = document.getElementById('impactList');
+  impacts.forEach(i=>{
+    wrap.appendChild(el(`
+      <div class="impact-item">
+        <div class="impact-ic" style="background:${i.color}">${i.icon}</div>
+        <div><div class="impact-label">${i.label}</div><div class="impact-num">${i.num}</div></div>
+        <div class="impact-delta">${i.delta}</div>
+      </div>`));
+  });
+}
+
+function renderTopics(){
+  const wrap = document.getElementById('topicsList');
+  topics.forEach(t=>{
+    wrap.appendChild(el(`
+      <div class="topic-row">
+        <div class="topic-top"><span>${t.label}</span><span>${t.pct}%</span></div>
+        <div class="topic-bar"><div class="topic-fill" data-w="${t.pct}" style="background:${t.color}"></div></div>
+      </div>`));
+  });
+}
+
+function renderWebinars(){
+  const wrap = document.getElementById('webinarList');
+  webinars.forEach(w=>{
+    wrap.appendChild(el(`
+      <div class="webinar-item">
+        <div class="webinar-ic">${ICONS.calendar}</div>
+        <div class="webinar-info"><b>${w.title}</b><span>By ${w.by} · ${w.date}, ${w.time}</span></div>
+        <button class="register-btn">Register</button>
+      </div>`));
+  });
+}
+
+function renderTestimonials(){
+  const wrap = document.getElementById('testimonialList');
+  testimonials.forEach(t=>{
+    wrap.appendChild(el(`
+      <div class="testimonial">
+        <p>"${t.text}"</p>
+        <div class="t-user"><img src="${t.img}" alt="${t.name}"><div><b>${t.name}</b><span>${t.role}</span></div><span class="t-stars">★★★★★</span></div>
+      </div>`));
+  });
+}
+
+function renderCategories(){
+  const wrap = document.getElementById('catGrid');
+  categories.forEach(c=>{
+    wrap.appendChild(el(`
+      <div class="cat-item">
+        <div class="cat-ic" style="background:${c.color}">${c.icon}</div>
+        <div><b>${c.label}</b><span>${c.count}</span></div>
+      </div>`));
+  });
+}
+
+/* ============ COUNT-UP ANIMATION ============ */
+function animateCounters(){
+  document.querySelectorAll('.stat-num').forEach(elx=>{
+    const target = parseFloat(elx.dataset.target);
+    const decimal = elx.dataset.decimal === '1';
+    const suffix = elx.dataset.suffix || '';
+    let cur = 0;
+    const steps = 40;
+    const inc = target/steps;
+    let i=0;
+    const timer = setInterval(()=>{
+      i++; cur += inc;
+      if(i>=steps){ cur = target; clearInterval(timer); }
+      elx.textContent = (decimal ? cur.toFixed(1) : Math.round(cur)) + suffix;
+    }, 22);
+  });
+}
+
+/* ============ INIT ============ */
+renderStats();
+renderQuickActions();
+renderPills();
+const drawExpertise = renderDonut('donutExpertise','legendExpertise', expertiseData, {num:156, sub:'Total Mentors'});
+const drawStatus = renderDonut('donutStatus','legendStatus', statusData, {num:48, sub:'Total Sessions'});
+renderConsultations();
+renderMentors();
+renderActivities();
+renderImpact();
+renderTopics();
+renderWebinars();
+renderTestimonials();
+renderCategories();
+
+/* ============ SCROLL REVEAL + TRIGGER ANIMATIONS ============ */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(elx=> io.observe(elx));
+
+// Fire number/chart/bar animations shortly after load (hero content)
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    animateCounters();
+    drawExpertise();
+    drawStatus();
+    document.querySelectorAll('.topic-fill').forEach(f=>{
+      requestAnimationFrame(()=> f.style.width = f.dataset.w + '%');
+    });
+  }, 250);
+});
+
+/* ============ MOBILE SIDEBAR TOGGLE ============ */
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const hamburger = document.getElementById('hamburger');
+
+function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+hamburger.addEventListener('click', ()=>{
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+overlay.addEventListener('click', closeSidebar);
+document.querySelectorAll('.nav-item').forEach(n=> n.addEventListener('click', ()=>{
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  n.classList.add('active');
+  if(window.innerWidth<=980) closeSidebar();
+}));
+</script>
+</body>
+</html>

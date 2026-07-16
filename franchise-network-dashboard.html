@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COTE — Franchise Expansion & Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#4F46E5;
+    --primary-light:#ecebfd;
+    --purple:#8B5CF6;
+    --purple-light:#f1ebfe;
+    --success:#22C55E;
+    --success-light:#e7f9ee;
+    --warning:#F59E0B;
+    --warning-light:#fef3e0;
+    --danger:#EF4444;
+    --danger-light:#fde9e9;
+    --info:#3B82F6;
+    --info-light:#e8effe;
+    --teal:#14B8A6;
+    --teal-light:#e2f8f5;
+    --orange:#FB923C;
+    --orange-light:#fef0e4;
+    --navy:#161033;
+     --navy-dark:#0B1436;
+    --navy-darker:#080E26;
+    --navy-2:#1e1740;
+    --text-dark:#1a1f36;
+    --text-mid:#5b6178;
+    --text-light:#9498a8;
+    --bg:#f5f5fb;
+    --card-bg:#ffffff;
+    --border:#ececf4;
+    --radius:16px;
+    --shadow: 0 10px 30px rgba(22,16,51,.06);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Poppins',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text-dark);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{text-decoration:none; color:inherit;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+
+  .app{ display:grid; grid-template-columns:250px 1fr; min-height:100vh; }
+
+  /* ===== Sidebar ===== */
+  .sidebar{
+   background:var(--navy-darker);
+    color:#CBD5E1;
+    padding:24px 16px 20px; display:flex; flex-direction:column;
+    position:sticky; top:0; height:100vh; overflow-y:auto; z-index:60;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 6px 22px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    margin-bottom:18px;
+  }
+  .brand .logo-mark{
+    width:40px;height:40px;border-radius:10px;
+    background:linear-gradient(135deg,#FF6835,#1E3A8A);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;font-size:15px;letter-spacing:.5px;
+    flex-shrink:0;
+  }
+  .brand .brand-text{line-height:1.1;}
+  .brand .brand-text b{display:block;font-size:15px;color:#fff;letter-spacing:.5px;}
+  .brand .brand-text span{font-size:9px;color:#8B95B5;letter-spacing:1px;text-transform:uppercase;}
+
+
+  .nav-group-label{ font-size:10.5px; letter-spacing:.08em; color:#726ea0; font-weight:700; padding:14px 10px 6px; }
+  .nav{display:flex; flex-direction:column; gap:2px;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px; padding:9px 12px; border-radius:10px;
+    font-size:13.5px; font-weight:500; color:#b3b0d1;
+    transition:background .15s, color .15s; white-space:nowrap;
+  }
+  .nav-item svg{width:17px;height:17px; flex-shrink:0; opacity:.85;}
+  .nav-item:hover{background:#241d4d; color:#fff;}
+  .nav-item.active{background:var(--primary); color:#fff;}
+  .nav-item.active svg{opacity:1;}
+
+  .upgrade-card{
+    margin-top:auto;
+    background:linear-gradient(160deg,var(--primary),var(--purple));
+    border-radius:var(--radius); padding:20px 18px; text-align:center; color:#fff; margin-top:18px;
+  }
+  .upgrade-card .icon{
+    width:38px;height:38px;background:rgba(255,255,255,.18); border-radius:10px;
+    display:flex;align-items:center;justify-content:center; margin:0 auto 10px;
+  }
+  .upgrade-card h4{font-size:14px; margin-bottom:4px;}
+  .upgrade-card p{font-size:11.5px; opacity:.85; line-height:1.4; margin-bottom:14px;}
+  .upgrade-card button{
+    background:#fff; color:var(--primary); font-weight:700; font-size:12.5px;
+    padding:9px 0; width:100%; border-radius:10px;
+  }
+
+  /* ===== Main ===== */
+  .main{min-width:0;}
+  .topbar{
+    display:flex;align-items:center;gap:16px; padding:14px 28px;
+    background:#fff; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50;
+  }
+  .hamburger{display:none; color:var(--text-mid);}
+  .hamburger svg{width:22px;height:22px;}
+   .search-box{
+    flex:1;
+    display:flex;align-items:center;gap:10px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 16px;
+    max-width:560px;
+  }
+  .search-box input{
+    border:none;background:transparent;outline:none;
+    font-size:13.5px;width:100%;color:var(--text-dark);
+    font-family:inherit;
+  }
+  .search-box input::placeholder{color:var(--text-soft);}
+  .topbar-right{
+    display:flex;align-items:center;gap:18px;margin-left:auto;
+  }
+  .bell{position:relative; color:var(--text-mid);}
+  .bell svg{width:20px;height:20px;}
+  .bell .dot{
+    position:absolute; top:-4px; right:-6px; background:var(--danger); color:#fff;
+    font-size:9.5px; font-weight:700; width:16px;height:16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .user{display:flex;align-items:center;gap:10px;}
+  .avatar{
+    width:36px;height:36px;border-radius:50%;
+    background:linear-gradient(135deg,var(--warning),var(--danger));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;
+  }
+  .user-info{line-height:1.2; white-space:nowrap;}
+  .user-info .uname{font-size:13.5px;font-weight:700;}
+  .user-info .urole{font-size:11px;color:var(--text-light);}
+  .chev{width:14px;height:14px;color:var(--text-light);}
+
+  .content{padding:24px 28px 60px;}
+
+  .page-head{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; margin-bottom:22px; }
+  .page-head h1{font-size:24px; font-weight:800; margin-bottom:4px;}
+  .page-head p{color:var(--text-mid); font-size:13.5px;}
+  .crumb{font-size:12px; color:var(--text-light); margin-bottom:8px;}
+  .crumb b{color:var(--text-mid); font-weight:600;}
+  .head-right{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
+  .share-btn{
+    display:flex; align-items:center; gap:8px; background:var(--navy); color:#fff;
+    font-weight:600; font-size:13px; padding:9px 16px; border-radius:10px;
+  }
+  .share-btn svg{width:14px;height:14px;}
+
+  /* ===== Stat cards ===== */
+  .stats-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:16px; margin-bottom:22px; }
+  .stat-card{
+    background:var(--card-bg); border-radius:var(--radius); padding:18px 16px;
+    box-shadow:var(--shadow); border:1px solid var(--border);
+  }
+  .stat-icon{ width:38px;height:38px;border-radius:12px; display:flex;align-items:center;justify-content:center; margin-bottom:14px; }
+  .stat-icon svg{width:18px;height:18px;color:#fff;}
+  .stat-num{font-size:22px; font-weight:800; margin-bottom:3px;}
+  .stat-label{font-size:12px; color:var(--text-mid); margin-bottom:8px;}
+  .stat-delta{font-size:11.5px; font-weight:600; color:var(--success); display:flex; align-items:center; gap:3px;}
+  .stat-delta.neutral{color:var(--text-light);}
+
+  .bg-purple{background:var(--purple);} .bg-success{background:var(--success);}
+  .bg-orange{background:var(--orange);} .bg-info{background:var(--info);}
+  .bg-danger{background:var(--danger);} .bg-teal{background:var(--teal);}
+  .bg-primary{background:var(--primary);}
+
+  /* ===== Quick actions ===== */
+  .section-title{font-size:15.5px; font-weight:700; margin-bottom:14px;}
+  .quick-actions{ display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-bottom:22px; }
+  .qa-btn{
+    background:#fff; border:1px solid var(--border); border-radius:14px;
+    padding:14px 10px; display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-size:12px; font-weight:600; color:var(--text-dark); box-shadow:var(--shadow);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .qa-btn:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(22,16,51,.1);}
+  .qa-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+  .qa-icon svg{width:16px;height:16px;}
+
+  /* ===== panels & charts ===== */
+  .charts-row3{ display:grid; grid-template-columns:1fr 1fr 0.9fr; gap:18px; margin-bottom:22px; align-items:stretch; }
+  .panel{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+  .panel-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+  .panel-head h3{font-size:14.5px; font-weight:700;}
+  .filter-pill{
+    display:flex; align-items:center; gap:6px; border:1px solid var(--border); border-radius:10px;
+    padding:6px 10px; font-size:12px; color:var(--text-mid); font-weight:500;
+  }
+  .filter-pill svg{width:12px;height:12px;}
+  .link{color:var(--primary); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:4px;}
+  .link svg{width:12px;height:12px;}
+
+  .donut-wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+  .donut-legend{flex:1; min-width:150px; display:flex; flex-direction:column; gap:10px;}
+  .legend-row{display:flex; align-items:center; font-size:12.5px; gap:8px;}
+  .legend-dot{width:9px;height:9px;border-radius:50%; flex-shrink:0;}
+  .legend-name{flex:1; color:var(--text-mid);}
+  .legend-val{font-weight:700;}
+  .legend-pct{color:var(--text-light); font-size:11px; width:38px; text-align:right;}
+
+  /* recent activity */
+  .activity-row{display:flex; gap:11px; padding:12px 0; border-bottom:1px solid var(--border);}
+  .activity-row:last-child{border-bottom:none;}
+  .act-icon{
+    width:32px;height:32px;border-radius:9px; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .act-icon svg{width:14px;height:14px;color:#fff;}
+  .act-body{flex:1; min-width:0;}
+  .act-body .at{font-size:12px; font-weight:700;}
+  .act-body .as{font-size:11px; color:var(--text-light); margin-top:1px;}
+  .act-time{font-size:10.5px; color:var(--text-light); white-space:nowrap;}
+
+  /* ===== Tables ===== */
+  .table-wrap{overflow-x:auto;}
+  table{width:100%; border-collapse:collapse; min-width:560px;}
+  thead th{
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--text-light); font-weight:700; padding:0 10px 10px; border-bottom:1px solid var(--border);
+  }
+  tbody td{padding:13px 10px; font-size:12.5px; border-bottom:1px solid var(--border); vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  .cell-main{display:flex; align-items:center; gap:9px; font-weight:600;}
+  .cell-avatar{
+    width:30px;height:30px;border-radius:9px; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10.5px;
+  }
+  .cell-sub{font-size:10.5px; color:var(--text-light); font-weight:400; margin-top:1px;}
+  .badge{ display:inline-block; padding:4px 10px; border-radius:8px; font-size:10.5px; font-weight:700; white-space:nowrap; }
+  .badge.open{background:var(--success-light); color:var(--success);}
+  .badge.review{background:var(--warning-light); color:var(--warning);}
+  .badge.discussion{background:var(--danger-light); color:var(--danger);}
+  .muted{color:var(--text-mid);}
+
+  /* map + coverage row */
+  .map-row{ display:grid; grid-template-columns:1.6fr 1fr; gap:18px; margin-bottom:18px; align-items:stretch; }
+  .map-box{ display:flex; justify-content:center; align-items:center; padding:6px 0; }
+  .coverage-stats{display:flex; flex-direction:column; gap:16px; justify-content:center; height:100%;}
+  .cov-item .cn{font-size:11px; color:var(--text-light); font-weight:600; margin-bottom:3px;}
+  .cov-item .cv{font-size:22px; font-weight:800;}
+
+  /* three col: applicants / meetings / calculator */
+  .three-row{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:18px; }
+
+  .applicant-row{display:flex; align-items:center; gap:11px; padding:11px 0; border-bottom:1px solid var(--border);}
+  .applicant-row:last-child{border-bottom:none;}
+  .app-avatar{
+    width:32px;height:32px;border-radius:50%; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;
+  }
+  .app-info{flex:1; min-width:0;}
+  .app-info .an{font-size:12.5px; font-weight:700;}
+  .app-info .al{font-size:10.5px; color:var(--text-light);}
+  .app-status{ display:flex; align-items:center; gap:8px; }
+  .app-status .arrow{color:var(--text-light); width:14px;height:14px;}
+  .stage-tag{font-size:10px; font-weight:700; padding:4px 9px; border-radius:7px; white-space:nowrap;}
+  .stage-new{background:var(--info-light); color:var(--info);}
+  .stage-screening{background:var(--warning-light); color:var(--warning);}
+  .stage-shortlisted{background:var(--success-light); color:var(--success);}
+  .stage-interview{background:var(--purple-light); color:var(--purple);}
+  .stage-rejected{background:var(--danger-light); color:var(--danger);}
+
+  .meeting-item{display:flex; align-items:flex-start; gap:11px; padding:11px 0; border-bottom:1px solid var(--border);}
+  .meeting-item:last-child{border-bottom:none;}
+  .meeting-icon{
+    width:32px;height:32px;border-radius:9px; background:var(--primary-light); color:var(--primary);
+    display:flex;align-items:center;justify-content:center; flex-shrink:0;
+  }
+  .meeting-icon svg{width:15px;height:15px;}
+  .meeting-body{flex:1; min-width:0;}
+  .meeting-body .mt{font-size:12px; font-weight:700;}
+  .meeting-body .ms{font-size:10.5px; color:var(--text-light); margin-top:1px;}
+  .meeting-date{text-align:right; font-size:10.5px; color:var(--text-mid); font-weight:600; white-space:nowrap;}
+  .meeting-date .time{color:var(--text-light); font-weight:500; display:block; margin-top:1px;}
+
+  /* calculator */
+  .calc-field{margin-bottom:16px;}
+  .calc-label{font-size:11.5px; color:var(--text-mid); font-weight:600; margin-bottom:7px;}
+  .calc-select{
+    width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px;
+    font-size:13px; font-family:inherit; color:var(--text-dark); background:#fff;
+  }
+  .calc-amount{font-size:19px; font-weight:800; margin-bottom:8px;}
+  .calc-slider{-webkit-appearance:none; width:100%; height:5px; border-radius:4px; background:var(--border); outline:none;}
+  .calc-slider::-webkit-slider-thumb{
+    -webkit-appearance:none; width:16px;height:16px;border-radius:50%; background:var(--primary);
+    cursor:pointer; border:3px solid #fff; box-shadow:0 0 0 1px var(--primary);
+  }
+  .calc-slider.orange::-webkit-slider-thumb{background:var(--orange); box-shadow:0 0 0 1px var(--orange);}
+  .calc-roi{font-size:19px; font-weight:800; color:var(--primary); margin-bottom:8px;}
+  .calc-revenue{font-size:17px; font-weight:800; color:var(--success); margin-bottom:16px;}
+  .calc-btn{
+    width:100%; background:var(--primary); color:#fff; font-weight:700; font-size:13px;
+    padding:11px 0; border-radius:10px; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .calc-btn svg{width:14px;height:14px;}
+
+  /* Performance overview */
+  .perf-row{ display:grid; grid-template-columns:1.4fr 1fr; gap:18px; margin-bottom:4px; }
+  .perf-mini-stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px; }
+  .mini-stat .mn{font-size:10.5px; color:var(--text-light); font-weight:600; margin-bottom:4px;}
+  .mini-stat .mv{font-size:16px; font-weight:800; margin-bottom:3px;}
+  .mini-stat .md{font-size:10.5px; font-weight:600; color:var(--success);}
+  .mini-stat .md.down{color:var(--danger);}
+  .line-chart-wrap{display:flex; gap:10px;}
+  .y-axis{display:flex; flex-direction:column; justify-content:space-between; font-size:10px; color:var(--text-light); font-weight:600; padding-bottom:22px;}
+
+  .partner-row{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border);}
+  .partner-row:last-child{border-bottom:none;}
+  .partner-icon{
+    width:34px;height:34px;border-radius:10px; flex-shrink:0; background:var(--primary-light); color:var(--primary);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .partner-icon svg{width:16px;height:16px;}
+  .partner-info{flex:1; min-width:0;}
+  .partner-info .pn{font-size:12.5px; font-weight:700;}
+  .partner-info .pl{font-size:10.5px; color:var(--text-light);}
+  .partner-right{text-align:right;}
+  .partner-right .pr{font-size:12.5px; font-weight:700;}
+  .partner-right .pg{font-size:10.5px; color:var(--success); font-weight:600;}
+  .table-row-section2{ display:grid; grid-template-columns:1.4fr 1fr; gap:18px; margin-bottom:18px; align-items:start; }
+
+  /* CTA banner */
+  .cta-banner{
+    margin-top:4px; background:linear-gradient(120deg,var(--primary),var(--purple));
+    border-radius:var(--radius); padding:26px 30px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; color:#fff; flex-wrap:wrap;
+  }
+  .cta-left{display:flex; align-items:center; gap:18px;}
+  .cta-icon{
+    width:56px;height:56px;background:rgba(255,255,255,.18);border-radius:14px;
+    display:flex;align-items:center;justify-content:center; flex-shrink:0;
+  }
+  .cta-icon svg{width:28px;height:28px;}
+  .cta-left h3{font-size:17px; margin-bottom:4px;}
+  .cta-left p{font-size:12.5px; opacity:.9;}
+  .cta-btn{
+    background:#fff; color:var(--primary); font-weight:700; font-size:13.5px;
+    padding:11px 22px; border-radius:10px; display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .cta-btn svg{width:14px;height:14px;}
+
+  footer{ display:flex; justify-content:space-between; align-items:center; padding:20px 4px; color:var(--text-light); font-size:12px; flex-wrap:wrap; gap:8px; }
+  footer .flinks{display:flex; gap:20px;}
+
+  .overlay{ display:none; position:fixed; inset:0; background:rgba(10,8,25,.5); z-index:55; }
+  .overlay.show{display:block;}
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width:1280px){
+    .charts-row3{grid-template-columns:1fr 1fr; }
+    .charts-row3 > :nth-child(3){grid-column:1/-1;}
+  }
+  @media (max-width:1180px){
+    .stats-grid{grid-template-columns:repeat(3,1fr);}
+    .quick-actions{grid-template-columns:repeat(3,1fr);}
+    .charts-row3{grid-template-columns:1fr;}
+    .charts-row3 > :nth-child(3){grid-column:auto;}
+    .map-row{grid-template-columns:1fr;}
+    .three-row{grid-template-columns:1fr;}
+    .perf-row{grid-template-columns:1fr;}
+    .table-row-section2{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:860px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed; left:0; top:0; height:100vh; width:250px;
+      transform:translateX(-100%); transition:transform .25s ease;
+    }
+    .sidebar.open{transform:translateX(0);}
+    .hamburger{display:flex; align-items:center;}
+    .topbar{padding:12px 16px; gap:12px;}
+    .content{padding:18px 16px 44px;}
+    .page-head{flex-direction:column;}
+    .head-right{align-items:flex-start;}
+    .user-info{display:none;}
+    .search-box{max-width:none;}
+    .perf-mini-stats{grid-template-columns:repeat(2,1fr);}
+  }
+
+  @media (max-width:600px){
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .quick-actions{grid-template-columns:repeat(2,1fr);}
+    .cta-banner{flex-direction:column; align-items:flex-start;}
+    .cta-btn{width:100%; justify-content:center;}
+    .page-head h1{font-size:20px;}
+    footer{flex-direction:column; align-items:flex-start;}
+  }
+
+  @media (max-width:420px){
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .stat-num{font-size:18px;}
+    .perf-mini-stats{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+   <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo-mark">C</div>
+      <div class="brand-text">
+        <b>COTE</b>
+        <span>Chamber of Trade &amp; Enterprise</span>
+      </div>
+    </div>
+
+
+    <a class="nav-item" href="#"><span class="ic">🏠</span> Dashboard</a>
+
+<div class="nav-group-label">FRANCHISE NETWORK</div>
+
+<a class="nav-item active" href="#"><span class="ic">📊</span> Franchise Dashboard</a>
+
+<a class="nav-item" href="#"><span class="ic">➕</span> Create Franchise</a>
+
+<a class="nav-item" href="#"><span class="ic">🏬</span> Franchise Listing</a>
+
+<a class="nav-item" href="#"><span class="ic">📁</span> Franchise Details</a>
+
+<a class="nav-item" href="#"><span class="ic">📝</span> Apply Franchise</a>
+
+<a class="nav-item" href="#"><span class="ic">👥</span> Applicant Management</a>
+
+<a class="nav-item" href="#"><span class="ic">💬</span> Discussion / Chat</a>
+
+<a class="nav-item" href="#"><span class="ic">🧮</span> Investment Calculator</a>
+
+<a class="nav-item" href="#"><span class="ic">📄</span> Agreement Upload</a>
+
+<a class="nav-item" href="#"><span class="ic">🚀</span> Franchise Tracking</a>
+
+<a class="nav-item" href="#"><span class="ic">🏢</span> Franchise Profile</a>
+
+<a class="nav-item" href="#"><span class="ic">🏆</span> Success Stories</a>
+
+    <div class="upgrade-card">
+      <div class="icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 8l5 3 4-6 4 6 5-3-2 11H5z"/></svg>
+      </div>
+      <h4>Upgrade to Premium</h4>
+      <p>Unlock premium features and grow your franchise network.</p>
+      <button>Upgrade Now</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" placeholder="Search franchise opportunities, partners...">
+      </div>
+      <div class="topbar-right">
+        <div class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="dot">8</span></div>
+        <div class="user">
+          <div class="avatar">V</div>
+          <div class="user-info">
+            <div class="uname">Vignesh</div>
+            <div class="urole">Business Owner</div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="page-head">
+        <div>
+          <div class="crumb">Dashboard &nbsp;›&nbsp; <b>Franchise Network</b></div>
+          <h1>Franchise Expansion &amp; Network</h1>
+          <p>Expand your brand. Build your network. Grow together.</p>
+        </div>
+        <div class="head-right">
+          <button class="share-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6 15.4 6.4M8.6 13.4l6.8 4.2"/></svg>
+            Share
+          </button>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon bg-purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+          <div class="stat-num">32</div>
+          <div class="stat-label">Active Opportunities</div>
+          <div class="stat-delta">↑ 18% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-success"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M14.5 15.4c2.5.3 4.3 1.9 4.3 4.6"/></svg></div>
+          <div class="stat-num">128</div>
+          <div class="stat-label">Applications Received</div>
+          <div class="stat-delta">↑ 22% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-orange"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div class="stat-num">24</div>
+          <div class="stat-label">Partners Onboarded</div>
+          <div class="stat-delta neutral">This Month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-info"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 3 5-7"/></svg></div>
+          <div class="stat-num">16</div>
+          <div class="stat-label">Agreements Signed</div>
+          <div class="stat-delta">↑ 14% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-danger"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s-7-4.5-7-10a7 7 0 0 1 14 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="11" r="2.4"/></svg></div>
+          <div class="stat-num">8</div>
+          <div class="stat-label">States Covered</div>
+          <div class="stat-delta neutral">Across India</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon bg-teal"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div class="stat-num">82%</div>
+          <div class="stat-label">Success Rate</div>
+          <div class="stat-delta neutral">This Quarter</div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="section-title">Quick Actions</div>
+      <div class="quick-actions">
+        <button class="qa-btn"><div class="qa-icon bg-purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>Create Franchise</button>
+        <button class="qa-btn"><div class="qa-icon bg-info"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>View Opportunities</button>
+        <button class="qa-btn"><div class="qa-icon bg-success"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/></svg></div>Manage Applicants</button>
+        <button class="qa-btn"><div class="qa-icon bg-orange"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>Schedule Meeting</button>
+        <button class="qa-btn"><div class="qa-icon bg-teal"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M9 14h2m4 0h2M9 17h2m4 0h2M8 3v3M16 3v3M3 9h18"/></svg></div>Investment Calculator</button>
+        <button class="qa-btn"><div class="qa-icon bg-danger"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>Upload Agreement</button>
+      </div>
+
+      <!-- 3 col: donuts + activity -->
+      <div class="charts-row3">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Opportunity Status Overview</h3>
+            <div class="filter-pill">This Month <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="donut-wrap">
+            <svg width="150" height="150" viewBox="0 0 42 42" style="flex-shrink:0">
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#ececf4" stroke-width="6"></circle>
+              <g id="oppDonut"></g>
+              <text x="21" y="19.5" text-anchor="middle" font-size="6.2" font-weight="800" fill="#1a1f36" font-family="Poppins">32</text>
+              <text x="21" y="25" text-anchor="middle" font-size="2.9" fill="#9498a8" font-family="Poppins">Total</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-row"><span class="legend-dot" style="background:#3B82F6"></span><span class="legend-name">Open</span><span class="legend-val">12</span><span class="legend-pct">(37%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#F59E0B"></span><span class="legend-name">Under Review</span><span class="legend-val">8</span><span class="legend-pct">(25%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#22C55E"></span><span class="legend-name">In Discussion</span><span class="legend-val">6</span><span class="legend-pct">(19%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#8B5CF6"></span><span class="legend-name">Agreement Stage</span><span class="legend-val">4</span><span class="legend-pct">(13%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#EF4444"></span><span class="legend-name">Closed</span><span class="legend-val">2</span><span class="legend-pct">(6%)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Applications by Stage</h3>
+            <div class="filter-pill">This Month <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="donut-wrap">
+            <svg width="150" height="150" viewBox="0 0 42 42" style="flex-shrink:0">
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#ececf4" stroke-width="6"></circle>
+              <g id="appDonut"></g>
+              <text x="21" y="19.5" text-anchor="middle" font-size="6.2" font-weight="800" fill="#1a1f36" font-family="Poppins">128</text>
+              <text x="21" y="25" text-anchor="middle" font-size="2.9" fill="#9498a8" font-family="Poppins">Total</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-row"><span class="legend-dot" style="background:#3B82F6"></span><span class="legend-name">New</span><span class="legend-val">45</span><span class="legend-pct">(35%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#F59E0B"></span><span class="legend-name">Screening</span><span class="legend-val">32</span><span class="legend-pct">(25%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#22C55E"></span><span class="legend-name">Shortlisted</span><span class="legend-val">22</span><span class="legend-pct">(17%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#8B5CF6"></span><span class="legend-name">Interview</span><span class="legend-val">18</span><span class="legend-pct">(14%)</span></div>
+              <div class="legend-row"><span class="legend-dot" style="background:#EF4444"></span><span class="legend-name">Rejected</span><span class="legend-val">11</span><span class="legend-pct">(9%)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Activity</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="activity-row">
+            <div class="act-icon bg-info"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="act-body"><div class="at">New application received</div><div class="as">Chennai - Territory Partner</div></div>
+            <div class="act-time">10m ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="act-icon bg-success"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+            <div class="act-body"><div class="at">Partner agreement signed</div><div class="as">Coimbatore - Regional Partner</div></div>
+            <div class="act-time">1h ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="act-icon bg-purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="act-body"><div class="at">Meeting scheduled</div><div class="as">With: Rajesh Enterprises</div></div>
+            <div class="act-time">2h ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="act-icon bg-orange"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="act-body"><div class="at">New opportunity published</div><div class="as">Bangalore - Master Franchise</div></div>
+            <div class="act-time">3h ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="act-icon bg-teal"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/></svg></div>
+            <div class="act-body"><div class="at">Partner onboarded</div><div class="as">Trichy - District Partner</div></div>
+            <div class="act-time">5h ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top opportunities + Network coverage -->
+      <div class="map-row">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Top Franchise Opportunities</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Opportunity</th><th>Location</th><th>Investment Range</th><th>Applications</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="cell-main">Master Franchise<div class="cell-sub">Exclusive State Rights</div></div></td>
+                  <td class="muted">Tamil Nadu</td>
+                  <td class="muted">₹ 50L - ₹ 1Cr</td>
+                  <td class="muted">18</td>
+                  <td><span class="badge open">Open</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main">Regional Distributor<div class="cell-sub">Multiple Districts</div></div></td>
+                  <td class="muted">Karnataka</td>
+                  <td class="muted">₹ 20L - ₹ 50L</td>
+                  <td class="muted">22</td>
+                  <td><span class="badge review">Under Review</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main">City Partner<div class="cell-sub">Single City Rights</div></div></td>
+                  <td class="muted">Hyderabad</td>
+                  <td class="muted">₹ 10L - ₹ 25L</td>
+                  <td class="muted">28</td>
+                  <td><span class="badge discussion">In Discussion</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main">Area Developer<div class="cell-sub">Specific Area Rights</div></div></td>
+                  <td class="muted">Kerala</td>
+                  <td class="muted">₹ 15L - ₹ 30L</td>
+                  <td class="muted">14</td>
+                  <td><span class="badge open">Open</span></td>
+                </tr>
+                <tr>
+                  <td><div class="cell-main">Outlet Franchise<div class="cell-sub">Single Outlet</div></div></td>
+                  <td class="muted">Pune</td>
+                  <td class="muted">₹ 5L - ₹ 15L</td>
+                  <td class="muted">16</td>
+                  <td><span class="badge review">Under Review</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Network Coverage</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="map-row" style="grid-template-columns:1.2fr 1fr; gap:12px; margin-bottom:0;">
+            <div class="map-box">
+              <svg width="150" height="170" viewBox="0 0 200 230" fill="none">
+                <path d="M100 8 C130 10 150 30 155 55 C165 60 172 75 168 90 C180 95 178 115 165 122 C168 140 155 150 145 148 C148 165 130 178 118 172 C115 190 95 198 85 188 C70 195 55 185 58 168 C40 165 32 148 40 135 C25 128 22 108 35 98 C28 85 35 68 50 65 C48 45 65 25 88 22 C85 12 92 8 100 8 Z" fill="#c9c5ea" stroke="#8B5CF6" stroke-width="1.5"/>
+                <circle cx="95" cy="60" r="4" fill="#4F46E5"/>
+                <circle cx="70" cy="100" r="4" fill="#4F46E5"/>
+                <circle cx="120" cy="90" r="4" fill="#4F46E5"/>
+                <circle cx="90" cy="140" r="4" fill="#4F46E5"/>
+                <circle cx="105" cy="170" r="4" fill="#4F46E5"/>
+                <circle cx="80" cy="60" r="10" fill="#4F46E5" opacity=".15"/>
+                <circle cx="90" cy="140" r="12" fill="#4F46E5" opacity=".15"/>
+              </svg>
+            </div>
+            <div class="coverage-stats">
+              <div class="cov-item"><div class="cn">Total States</div><div class="cv">8</div></div>
+              <div class="cov-item"><div class="cn">Total Cities</div><div class="cv">36</div></div>
+              <div class="cov-item"><div class="cn">Active Partners</div><div class="cv">24</div></div>
+              <div class="cov-item"><div class="cn">Upcoming Locations</div><div class="cv">18</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- three col: applicants / meetings / calculator -->
+      <div class="three-row">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Applicants</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="applicant-row">
+            <div class="app-avatar" style="background:#4F46E5">SK</div>
+            <div class="app-info"><div class="an">Suresh Kumar</div><div class="al">Coimbatore, Tamil Nadu</div></div>
+            <div class="app-status"><span class="stage-tag stage-new">New</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+          <div class="applicant-row">
+            <div class="app-avatar" style="background:#F59E0B">JM</div>
+            <div class="app-info"><div class="an">Jagadeesh M</div><div class="al">Bangalore, Karnataka</div></div>
+            <div class="app-status"><span class="stage-tag stage-screening">Screening</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+          <div class="applicant-row">
+            <div class="app-avatar" style="background:#22C55E">AP</div>
+            <div class="app-info"><div class="an">Arun Prakash</div><div class="al">Madurai, Tamil Nadu</div></div>
+            <div class="app-status"><span class="stage-tag stage-shortlisted">Shortlisted</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+          <div class="applicant-row">
+            <div class="app-avatar" style="background:#8B5CF6">PR</div>
+            <div class="app-info"><div class="an">Pradeep R</div><div class="al">Trichy, Tamil Nadu</div></div>
+            <div class="app-status"><span class="stage-tag stage-interview">Interview</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+          <div class="applicant-row">
+            <div class="app-avatar" style="background:#EF4444">KN</div>
+            <div class="app-info"><div class="an">Karthik N</div><div class="al">Salem, Tamil Nadu</div></div>
+            <div class="app-status"><span class="stage-tag stage-rejected">Rejected</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Upcoming Meetings</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Review Meeting</div><div class="ms">With: Rajesh Enterprises</div></div>
+            <div class="meeting-date">12 May 2025<span class="time">11:00 AM</span></div>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Business Discussion</div><div class="ms">With: Greenway Retail</div></div>
+            <div class="meeting-date">13 May 2025<span class="time">02:30 PM</span></div>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Proposal Presentation</div><div class="ms">With: Future Mart</div></div>
+            <div class="meeting-date">14 May 2025<span class="time">10:00 AM</span></div>
+          </div>
+          <div class="meeting-item">
+            <div class="meeting-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
+            <div class="meeting-body"><div class="mt">Agreement Discussion</div><div class="ms">With: Krishna Traders</div></div>
+            <div class="meeting-date">15 May 2025<span class="time">03:00 PM</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Investment Calculator (Quick)</h3>
+          </div>
+          <div class="calc-field">
+            <div class="calc-label">Investment Type</div>
+            <select class="calc-select" id="invType">
+              <option>Master Franchise</option>
+              <option>Regional Distributor</option>
+              <option>City Partner</option>
+              <option>Area Developer</option>
+              <option>Outlet Franchise</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <div class="calc-label">Investment Amount</div>
+            <div class="calc-amount" id="amountVal">₹ 50,00,000</div>
+            <input type="range" min="500000" max="10000000" step="50000" value="5000000" class="calc-slider" id="amountSlider">
+          </div>
+          <div class="calc-field">
+            <div class="calc-label">Expected ROI (Yearly)</div>
+            <div class="calc-roi" id="roiVal">22%</div>
+            <input type="range" min="5" max="40" step="1" value="22" class="calc-slider orange" id="roiSlider">
+          </div>
+          <div class="calc-field">
+            <div class="calc-label">Estimated Revenue (Yearly)</div>
+            <div class="calc-revenue" id="revenueVal">₹ 1,10,00,000</div>
+          </div>
+          <button class="calc-btn">Detailed Calculator <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Performance overview + Top performing partners -->
+      <div class="table-row-section2">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Performance Overview</h3>
+            <div class="filter-pill">This Quarter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="perf-mini-stats">
+            <div class="mini-stat"><div class="mn">Revenue Generated</div><div class="mv">₹ 4.25 Cr</div><div class="md">↑ 16%</div></div>
+            <div class="mini-stat"><div class="mn">Partners Onboarded</div><div class="mv">24</div><div class="md">↑ 14%</div></div>
+            <div class="mini-stat"><div class="mn">Agreements Signed</div><div class="mv">16</div><div class="md">↑ 12%</div></div>
+            <div class="mini-stat"><div class="mn">Avg. Onboarding Time</div><div class="mv">18 Days</div><div class="md down">↓ 8%</div></div>
+          </div>
+          <div class="line-chart-wrap">
+            <div class="y-axis">
+              <span>₹2Cr</span><span>₹1.5Cr</span><span>₹1Cr</span><span>₹50L</span><span>₹0</span>
+            </div>
+            <svg id="lineChart" width="100%" height="200" viewBox="0 0 560 200" preserveAspectRatio="none" style="flex:1; min-width:0;"></svg>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Top Performing Partners</h3>
+            <a class="link" href="#">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="partner-row">
+            <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <div class="partner-info"><div class="pn">Chennai City Partner</div><div class="pl">Chennai, Tamil Nadu</div></div>
+            <div class="partner-right"><div class="pr">₹ 48.5 L</div><div class="pg">↑ 24%</div></div>
+          </div>
+          <div class="partner-row">
+            <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <div class="partner-info"><div class="pn">Coimbatore Regional Partner</div><div class="pl">Coimbatore, Tamil Nadu</div></div>
+            <div class="partner-right"><div class="pr">₹ 36.2 L</div><div class="pg">↑ 18%</div></div>
+          </div>
+          <div class="partner-row">
+            <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <div class="partner-info"><div class="pn">Bangalore City Partner</div><div class="pl">Bangalore, Karnataka</div></div>
+            <div class="partner-right"><div class="pr">₹ 32.7 L</div><div class="pg">↑ 15%</div></div>
+          </div>
+          <div class="partner-row">
+            <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <div class="partner-info"><div class="pn">Hyderabad Area Partner</div><div class="pl">Hyderabad, Telangana</div></div>
+            <div class="partner-right"><div class="pr">₹ 28.4 L</div><div class="pg">↑ 12%</div></div>
+          </div>
+          <div class="partner-row">
+            <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <div class="partner-info"><div class="pn">Trichy District Partner</div><div class="pl">Trichy, Tamil Nadu</div></div>
+            <div class="partner-right"><div class="pr">₹ 21.6 L</div><div class="pg">↑ 10%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-banner">
+        <div class="cta-left">
+          <div class="cta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 9 12 3l9 6M4 9v11a1 1 0 0 0 1 1h5v-6h4v6h5a1 1 0 0 0 1-1V9"/></svg></div>
+          <div>
+            <h3>Expand Your Brand. Build Your Network.</h3>
+            <p>Create new opportunities and connect with passionate partners across India.</p>
+          </div>
+        </div>
+        <button class="cta-btn">Create Franchise Opportunity <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+
+      <footer>
+        <div>© 2025 COTE - Chamber Of Trade &amp; Enterprises. All rights reserved.</div>
+        <div class="flinks"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- Mobile sidebar toggle ----------
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const hamburger = document.getElementById('hamburger');
+
+function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+hamburger.addEventListener('click', openSidebar);
+overlay.addEventListener('click', closeSidebar);
+document.querySelectorAll('.sidebar .nav-item, .sidebar .brand').forEach(el=>{
+  el.addEventListener('click', ()=>{ if(window.innerWidth<=860) closeSidebar(); });
+});
+
+// ---------- Donut chart renderer ----------
+function renderDonut(elId, segments){
+  const g = document.getElementById(elId);
+  const r = 15.9, cx = 21, cy = 21;
+  const circumference = 2 * Math.PI * r;
+  let offsetAcc = 0;
+  segments.forEach(seg=>{
+    const dash = (seg.pct/100) * circumference;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', r);
+    circle.setAttribute('fill','none');
+    circle.setAttribute('stroke', seg.color);
+    circle.setAttribute('stroke-width','6');
+    circle.setAttribute('stroke-dasharray', `${dash} ${circumference-dash}`);
+    circle.setAttribute('stroke-dashoffset', -offsetAcc);
+    circle.setAttribute('transform','rotate(-90 21 21)');
+    circle.style.transition = 'stroke-dasharray .8s ease';
+    g.appendChild(circle);
+    offsetAcc += dash;
+  });
+}
+
+renderDonut('oppDonut', [
+  {pct:37, color:'#3B82F6'},
+  {pct:25, color:'#F59E0B'},
+  {pct:19, color:'#22C55E'},
+  {pct:13, color:'#8B5CF6'},
+  {pct:6,  color:'#EF4444'},
+]);
+
+renderDonut('appDonut', [
+  {pct:35, color:'#3B82F6'},
+  {pct:25, color:'#F59E0B'},
+  {pct:17, color:'#22C55E'},
+  {pct:14, color:'#8B5CF6'},
+  {pct:9,  color:'#EF4444'},
+]);
+
+// ---------- Investment Calculator ----------
+const amountSlider = document.getElementById('amountSlider');
+const roiSlider = document.getElementById('roiSlider');
+const amountVal = document.getElementById('amountVal');
+const roiVal = document.getElementById('roiVal');
+const revenueVal = document.getElementById('revenueVal');
+
+function formatINR(num){
+  return '₹ ' + num.toLocaleString('en-IN');
+}
+
+function updateCalculator(){
+  const amount = parseInt(amountSlider.value, 10);
+  const roi = parseInt(roiSlider.value, 10);
+  const revenue = Math.round(amount * (1 + roi/100));
+  amountVal.textContent = formatINR(amount);
+  roiVal.textContent = roi + '%';
+  revenueVal.textContent = formatINR(revenue);
+}
+amountSlider.addEventListener('input', updateCalculator);
+roiSlider.addEventListener('input', updateCalculator);
+updateCalculator();
+
+// ---------- Line chart (Performance Overview) ----------
+function renderLineChart(){
+  const svg = document.getElementById('lineChart');
+  svg.innerHTML = '';
+  const data = [0.55, 1.2, 1.05, 1.35, 1.85, 1.15, 1.75]; // in Cr
+  const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+  const w = 560, h = 200, padBottom = 24, padTop = 10, maxVal = 2.0;
+  const stepX = w / (data.length - 1);
+
+  // grid lines
+  for(let i=0;i<=4;i++){
+    const y = padTop + (h-padTop-padBottom) * (i/4);
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',0); line.setAttribute('x2',w);
+    line.setAttribute('y1',y); line.setAttribute('y2',y);
+    line.setAttribute('stroke','#ececf4'); line.setAttribute('stroke-width','1');
+    svg.appendChild(line);
+  }
+
+  const points = data.map((v,i)=>{
+    const x = i*stepX;
+    const y = padTop + (h-padTop-padBottom) * (1 - v/maxVal);
+    return [x,y];
+  });
+
+  const pathD = points.map((p,i)=> (i===0?'M':'L') + p[0] + ' ' + p[1]).join(' ');
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', pathD);
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke','#4F46E5');
+  path.setAttribute('stroke-width','2.5');
+  path.setAttribute('stroke-linecap','round');
+  path.setAttribute('stroke-linejoin','round');
+  svg.appendChild(path);
+
+  // area fill
+  const areaD = pathD + ` L${points[points.length-1][0]} ${h-padBottom} L${points[0][0]} ${h-padBottom} Z`;
+  const area = document.createElementNS('http://www.w3.org/2000/svg','path');
+  area.setAttribute('d', areaD);
+  area.setAttribute('fill','url(#lineGrad)');
+  area.setAttribute('opacity','0.5');
+  svg.insertBefore(area, path);
+
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  defs.innerHTML = `<linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#4F46E5" stop-opacity="0"/>
+  </linearGradient>`;
+  svg.insertBefore(defs, svg.firstChild);
+
+  points.forEach((p,i)=>{
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',p[0]); circle.setAttribute('cy',p[1]); circle.setAttribute('r','4');
+    circle.setAttribute('fill','#fff'); circle.setAttribute('stroke','#4F46E5'); circle.setAttribute('stroke-width','2.5');
+    svg.appendChild(circle);
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x', p[0]); text.setAttribute('y', h-4);
+    text.setAttribute('text-anchor','middle'); text.setAttribute('font-size','11');
+    text.setAttribute('fill','#9498a8'); text.setAttribute('font-family','Poppins');
+    text.textContent = labels[i];
+    svg.appendChild(text);
+  });
+}
+renderLineChart();
+window.addEventListener('resize', renderLineChart);
+</script>
+
+</body>
+</html>
