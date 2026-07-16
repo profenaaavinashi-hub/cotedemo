@@ -248,7 +248,7 @@
 
   /* Quick filters */
   .section-title{font-size:16px;font-weight:600;margin-bottom:14px;}
-  .filters-row{
+  /* .filters-row{
     display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:26px;
     scrollbar-width:none;
   }
@@ -259,7 +259,36 @@
     padding:10px 16px;border-radius:10px;font-size:13px;font-weight:500;
     white-space:nowrap;flex-shrink:0;box-shadow:var(--shadow);
   }
-  .filter-chip .fic{font-size:15px;}
+  .filter-chip .fic{font-size:15px;} */
+  /* ===== Quick Filters Mobile ===== */
+
+.filters-row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.filter-chip{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    min-height:52px;
+    padding:12px;
+    border-radius:14px;
+    text-align:center;
+    font-size:14px;
+}
+
+.filter-chip .fic{
+    font-size:18px;
+}
+
+/* Hide the last arrow chip */
+.filter-chip:last-child{
+    display:none;
+}
 
   /* Two-col charts */
   .charts-row{
@@ -475,6 +504,9 @@ tbody td:nth-child(5)::before{content:"Status";}
   @media (max-width: 420px){
     .stats-grid{grid-template-columns:1fr 1fr;}
     .stat-card h2{font-size:20px;}
+    .filters-row{
+    grid-template-columns:1fr;
+}
   }
 </style>
 </head>
