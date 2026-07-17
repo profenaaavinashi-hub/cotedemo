@@ -11,7 +11,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 
@@ -39,6 +40,7 @@
   --bg:#f4f6fb;
   --card:#ffffff;
   --radius:16px;
+  --navy-darker:#080E26;
   --shadow:0 6px 24px rgba(20,30,70,.06);
   --shadow-hover:0 14px 34px rgba(20,30,70,.12);
 }
@@ -69,7 +71,7 @@ h1,h2,h3,.font-display{font-family:'Sora', sans-serif;}
 .sidebar{
   width:264px;
   flex-shrink:0;
-  background:linear-gradient(180deg,var(--navy-950),var(--navy-900) 55%, var(--navy-800));
+  background:var(--navy-darker);color:#CBD5E1;
   color:#cdd4ea;
   position:fixed;
   top:0; left:0; bottom:0;
@@ -79,22 +81,52 @@ h1,h2,h3,.font-display{font-family:'Sora', sans-serif;}
   transition:transform .35s ease;
 }
 .sidebar::-webkit-scrollbar{width:5px;}
-.brand{display:flex; align-items:center; gap:10px; padding:4px 8px 20px; color:#fff;}
-.brand .logo-badge{
-  width:44px;height:44px;border-radius:12px;
-  background:radial-gradient(circle at 30% 30%, #263a7a, #0d1740);
-  display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.15);
-  font-weight:800; font-family:'Sora',sans-serif; font-size:1rem; color:#fff;
-}
-.brand .brand-text{line-height:1.05;}
-.brand .brand-text b{font-family:'Sora',sans-serif; font-size:1.05rem; letter-spacing:.5px;}
-.brand .brand-text small{display:block; font-size:.6rem; letter-spacing:1.5px; color:#8b93b8;}
+.brand{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 6px 22px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    margin-bottom:18px;
+  }
+  .brand .logo-mark{
+    width:40px;height:40px;border-radius:10px;
+    background:linear-gradient(135deg,#FF6835,#1E3A8A);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;font-size:15px;letter-spacing:.5px;
+    flex-shrink:0;
+  }
+  .brand .brand-text{line-height:1.1;}
+  .brand .brand-text b{display:block;font-size:15px;color:#fff;letter-spacing:.5px;}
+  .brand .brand-text span{font-size:9px;color:#8B95B5;letter-spacing:1px;text-transform:uppercase;}
 
-.nav-section-label{
-  font-size:.68rem; letter-spacing:1.3px; color:#5c6690;
-  text-transform:uppercase; margin:18px 10px 8px; font-weight:700;
-}
+ .nav-group-label{
+    font-size:10.5px;
+    letter-spacing:1px;
+    color:#5C6690;
+    font-weight:600;
+    margin:18px 8px 8px;
+    text-transform:uppercase;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 12px;
+    border-radius:10px;
+    font-size:13.5px;
+    font-weight:500;
+    color:#B6BEDC;
+    margin-bottom:2px;
+    text-decoration: none;
+    transition:background .15s, color .15s;
+  }
+  .nav-item .ic{
+    width:18px;height:18px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .nav-item:hover{background:rgba(255,255,255,0.05);color:#fff;}
+  .nav-item.active{
+    background:linear-gradient(90deg,#2947A8,#1E3A8A);
+    color:#fff;
+    box-shadow:0 4px 12px rgba(30,58,138,0.4);
+  }
 .side-link{
   display:flex; align-items:center; gap:12px;
   padding:10px 12px; border-radius:10px; color:#aab2d4;
@@ -377,31 +409,42 @@ footer.site-footer{
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="logo-badge">C</div>
+      <div class="logo-mark">C</div>
       <div class="brand-text">
         <b>COTE</b>
-        <small>CHAMBER OF TRADE &amp; ENTERPRISES</small>
+        <span>Chamber of Trade &amp; Enterprise</span>
       </div>
     </div>
 
-    <a href="#" class="side-link"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+   <a class="nav-item" href="#"><span class="ic">🏠</span> Dashboard</a>
 
-    <div class="nav-section-label">Learning Hub</div>
-    <a href="#" class="side-link active"><i class="fa-solid fa-robot"></i> AI Learning Dashboard</a>
-    <a href="#" class="side-link"><i class="fa-solid fa-layer-group"></i> Topics &amp; Courses</a>
-    <a href="#" class="side-link"><i class="fa-regular fa-circle-play"></i> Live Sessions</a>
-    <a href="#" class="side-link"><i class="fa-regular fa-user"></i> Trainers &amp; Coaches</a>
-    <a href="#" class="side-link"><i class="fa-solid fa-book-bookmark"></i> My Learning</a>
-    <a href="#" class="side-link"><i class="fa-regular fa-square-check"></i> Assessments</a>
-    <a href="#" class="side-link"><i class="fa-solid fa-certificate"></i> Certificates</a>
-    <a href="#" class="side-link"><i class="fa-regular fa-file-lines"></i> Business Reports</a>
+<div class="nav-group-label">LEARNING HUB</div>
 
-    <div class="nav-section-label">Member Benefits</div>
-    <a href="#" class="side-link"><i class="fa-regular fa-id-badge"></i> Welcome Kit</a>
-    <a href="#" class="side-link"><i class="fa-solid fa-briefcase"></i> Business Tools</a>
-    <a href="#" class="side-link"><i class="fa-solid fa-microchip"></i> AI Automation Tools</a>
-    <a href="#" class="side-link"><i class="fa-regular fa-newspaper"></i> Exclusive Magazine</a>
+<a class="nav-item active" href="#"><span class="ic">🤖</span> AI Learning Dashboard</a>
 
+<a class="nav-item" href="#"><span class="ic">📚</span> Topics &amp; Courses</a>
+
+<a class="nav-item" href="#"><span class="ic">🎥</span> Live Sessions</a>
+
+<a class="nav-item" href="#"><span class="ic">👨‍🏫</span> Trainers &amp; Coaches</a>
+
+<a class="nav-item" href="#"><span class="ic">📖</span> My Learning</a>
+
+<a class="nav-item" href="#"><span class="ic">✅</span> Assessments</a>
+
+<a class="nav-item" href="#"><span class="ic">🏆</span> Certificates</a>
+
+<a class="nav-item" href="#"><span class="ic">📊</span> Business Reports</a>
+
+<div class="nav-group-label">MEMBER BENEFITS</div>
+
+<a class="nav-item" href="#"><span class="ic">🎁</span> Welcome Kit</a>
+
+<a class="nav-item" href="#"><span class="ic">🧰</span> Business Tools</a>
+
+<a class="nav-item" href="#"><span class="ic">⚙️</span> AI Automation Tools</a>
+
+<a class="nav-item" href="#"><span class="ic">📰</span> Exclusive Magazine</a>
     <div class="premium-card">
       <i class="fa-solid fa-crown crown"></i>
       <h6>Upgrade to Premium</h6>
